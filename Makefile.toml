@@ -1,0 +1,5 @@
+[tasks.start-game]
+script = [
+    "cargo build",
+    "cargo run"
+]
