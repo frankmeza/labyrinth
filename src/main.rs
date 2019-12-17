@@ -1,6 +1,7 @@
 use std::io;
 use std::process;
 
+mod game;
 mod menu;
 
 fn handle_choice(choice: &str, is_valid_choice: &mut bool) {
@@ -8,7 +9,7 @@ fn handle_choice(choice: &str, is_valid_choice: &mut bool) {
         "1" => {
             println!("entering game");
             *is_valid_choice = true;
-            // run game
+            game::run();
         }
         "2" => {
             println!("quitting game");
