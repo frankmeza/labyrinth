@@ -1,8 +1,10 @@
 use std::io;
 use std::process;
 
+mod ascii;
 mod game;
 mod menu;
+mod story;
 
 fn handle_choice(choice: &str, is_valid_choice: &mut bool) {
     match choice {
