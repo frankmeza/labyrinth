@@ -2,7 +2,10 @@ use std::io;
 
 mod ascii;
 mod game;
+mod map;
 mod menu;
+mod player;
+mod space;
 mod story;
 mod utils;
 
