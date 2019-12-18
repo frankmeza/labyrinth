@@ -1,11 +1,19 @@
 use crate::player::Player;
-use crate::space::Space;
+use crate::space::{self, Space};
+use std::collections::HashMap;
 
 pub struct MinotaurSpace {
-    description: String,
+    pub description: String,
+    pub exits: HashMap<u8, u8>,
 }
 
 impl Space for MinotaurSpace {
+    fn new(description: String) -> Self {
+        let exits = space::exits(&description);
+
+        MinotaurSpace { description, exits }
+    }
+
     fn do_menu(_player: &Player) -> bool {
         true
     }
