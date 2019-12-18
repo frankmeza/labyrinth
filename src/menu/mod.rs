@@ -1,17 +1,13 @@
-fn show_options() {
-    let display = vec![
+fn show_options() -> String {
+    vec![
         "______________________________________________",
         "-------------------- MENU --------------------",
         "   1 --- play game",
         "   2 --- quit game",
         "______________________________________________",
-    ];
-
-    for line in &display {
-        println!("{}", line);
-    }
+    ].join("\n")
 }
 
 pub fn display() {
-    show_options();
+    println!("{}", show_options());
 }
