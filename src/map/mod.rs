@@ -1,5 +1,6 @@
 use crate::{
-    ascii,
+    ascii, constants,
+    player::Player,
     space::{self, EmptySpace, ItemSpace, MinotaurSpace, SpaceType},
 };
 
@@ -9,14 +10,30 @@ pub struct Map {
 
 fn generate_spaces() -> Vec<SpaceType> {
     vec![
-        SpaceType::Empty(EmptySpace::new(String::from("Starting Room"))),
-        SpaceType::Item(ItemSpace::new(String::from("Room 1"))),
-        SpaceType::Empty(EmptySpace::new(String::from("Room 2"))),
-        SpaceType::Item(ItemSpace::new(String::from("Room 3"))),
-        SpaceType::Item(ItemSpace::new(String::from("Room 4"))),
-        SpaceType::Empty(EmptySpace::new(String::from("Room 5"))),
-        SpaceType::Item(ItemSpace::new(String::from("Room 6"))),
-        SpaceType::Minotaur(MinotaurSpace::new(String::from("Final Room"))),
+        SpaceType::Empty(EmptySpace::new(String::from(
+            constants::STARTING_ROOM,
+        ))),
+        SpaceType::Item(ItemSpace::new(String::from(
+            constants::ROOM_1,
+        ))),
+        SpaceType::Empty(EmptySpace::new(String::from(
+            constants::ROOM_2,
+        ))),
+        SpaceType::Item(ItemSpace::new(String::from(
+            constants::ROOM_3,
+        ))),
+        SpaceType::Item(ItemSpace::new(String::from(
+            constants::ROOM_4,
+        ))),
+        SpaceType::Empty(EmptySpace::new(String::from(
+            constants::ROOM_5,
+        ))),
+        SpaceType::Item(ItemSpace::new(String::from(
+            constants::ROOM_6,
+        ))),
+        SpaceType::Minotaur(MinotaurSpace::new(String::from(
+            constants::FINAL_ROOM,
+        ))),
     ]
 }
 
@@ -30,7 +47,7 @@ impl Map {
         &self.spaces[index]
     }
 
-    pub fn enter_labyrinth(&self) {
+    pub fn enter_labyrinth(&self, _player: &Player) {
         let starting_room = self.get_space(0);
         let exits = starting_room.get_space_exits();
 
