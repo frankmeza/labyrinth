@@ -7,7 +7,8 @@ pub fn arrows() -> String {
         ">>>-------------->",
         " >>>-------------->",
         ">>>-------------->",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
 pub fn bow() -> String {
@@ -29,7 +30,8 @@ pub fn bow() -> String {
         "| /",
         "((",
         "(",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
 pub fn minotaur() -> String {
@@ -43,7 +45,8 @@ pub fn minotaur() -> String {
         "    -o.o-",
         "    () ()",
         "   ()()()()",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
 pub fn shield() -> String {
@@ -58,7 +61,8 @@ pub fn shield() -> String {
         "  \\.   |   ./",
         "   \\.     ./",
         "    \\.___./",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
 pub fn health_potion() -> String {
@@ -73,7 +77,8 @@ pub fn health_potion() -> String {
         "|          |",
         "|;:       _|",
         "`-.______.-'",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
 pub fn lit_torch() -> String {
@@ -90,21 +95,15 @@ pub fn lit_torch() -> String {
         "   ||",
         "   ||",
         "   ||",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
 pub fn unlit_torch() -> String {
     vec![
-        "        ",
-        "        ",
-        "        ",
-        " [____]",
-        "  |__|",
-        "   ||",
-        "   ||",
-        "   ||",
-        "   ||",
-    ].join("\n")
+        "        ", "        ", "        ", " [____]", "  |__|", "   ||", "   ||", "   ||", "   ||",
+    ]
+    .join("\n")
 }
 
 pub fn matches() -> String {
@@ -124,10 +123,11 @@ pub fn matches() -> String {
         "      ||",
         "      ||",
         "      ||",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
-pub fn room_left_forward_right() -> String {
+pub fn left_forward_right_room() -> String {
     vec![
         "\\                           /",
         ".\\                         /.",
@@ -149,10 +149,11 @@ pub fn room_left_forward_right() -> String {
         "../                       \\..",
         "./                         \\.",
         "/                           \\",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
-pub fn room_left_right() -> String {
+pub fn left_right_room() -> String {
     vec![
         "\\                           /",
         ".\\                         /.",
@@ -174,10 +175,11 @@ pub fn room_left_right() -> String {
         "../                       \\..",
         "./                         \\.",
         "/                           \\",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
-pub fn room_left_forward() -> String {
+pub fn left_forward_room() -> String {
     vec![
         "\\                         /",
         ".\\                       /.",
@@ -199,10 +201,11 @@ pub fn room_left_forward() -> String {
         "../                     \\..",
         "./                       \\.",
         "/                         \\",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
-pub fn room_forward_right() -> String {
+pub fn forward_right_room() -> String {
     vec![
         "\\                         /",
         ".\\                       /.",
@@ -224,5 +227,6 @@ pub fn room_forward_right() -> String {
         "../                     \\..",
         "./                       \\.",
         "/                         \\",
-    ].join("\n")
+    ]
+    .join("\n")
 }
