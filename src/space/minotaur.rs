@@ -1,19 +1,20 @@
 use crate::player::Player;
-use crate::space::{self, Space};
-use std::collections::HashMap;
+use crate::space::{Room, Space};
 
 pub struct MinotaurSpace {
-    pub description: String,
-    pub exits: HashMap<usize, usize>,
+    pub space: Space,
 }
 
-impl Space for MinotaurSpace {
-    fn new(description: String) -> Self {
-        let exits = space::exits(&description);
-
-        MinotaurSpace { description, exits }
+impl MinotaurSpace {
+    pub fn new(description: String) -> Self {
+        MinotaurSpace {
+            space: Space::new(String::from(&description)),
+        }
     }
+}
 
+impl Room for MinotaurSpace {
+    // todo
     fn has_items() -> bool {
         false
     }

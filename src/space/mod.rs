@@ -10,8 +10,19 @@ pub use empty::EmptySpace;
 pub use item::ItemSpace;
 pub use minotaur::MinotaurSpace;
 
-pub trait Space {
-    fn new(description: String) -> Self;
+pub struct Space {
+    pub description: String,
+    pub exits: HashMap<usize, usize>,
+}
+
+impl Space {
+    fn new(description: String) -> Self {
+        let exits = self::exits(&description);
+        Space { description, exits }
+    }
+}
+
+pub trait Room {
     fn do_menu(player: &Player) -> bool;
     fn has_items() -> bool;
 }
@@ -82,10 +93,10 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
     let mut exit_options = String::from("");
     let mut exits: Vec<usize> = vec![];
 
-    // todo put the keys into order before printing
     for (option, _room) in space_exits {
         exits.push(*option);
     }
+
     exits.sort();
 
     for e in 0..exits.len() {

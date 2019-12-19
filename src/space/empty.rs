@@ -1,20 +1,21 @@
 use crate::ascii;
 use crate::player::Player;
-use crate::space::{self, Space};
-use std::{collections::HashMap, io};
+use crate::space::{Room, Space};
+use std::io;
 
 pub struct EmptySpace {
-    pub description: String,
-    pub exits: HashMap<usize, usize>,
+    pub space: Space,
 }
 
-impl Space for EmptySpace {
-    fn new(description: String) -> Self {
-        let exits = space::exits(&description);
-
-        EmptySpace { description, exits }
+impl EmptySpace {
+    pub fn new(description: String) -> Self {
+        EmptySpace {
+            space: Space::new(String::from(&description)),
+        }
     }
+}
 
+impl Room for EmptySpace {
     fn has_items() -> bool {
         false
     }

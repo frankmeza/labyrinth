@@ -1,21 +1,23 @@
-use crate::player::Player;
-use crate::space::{self, Space};
-use std::collections::HashMap;
+use crate::{
+    player::Player,
+    space::{Room, Space},
+};
 
 pub struct ItemSpace {
-    pub description: String,
-    pub exits: HashMap<usize, usize>,
+    pub space: Space,
 }
 
-impl Space for ItemSpace {
-    fn new(description: String) -> Self {
-        let exits = space::exits(&description);
-
-        ItemSpace { description, exits }
+impl ItemSpace {
+    pub fn new(description: String) -> Self {
+        ItemSpace {
+            space: Space::new(String::from(&description)),
+        }
     }
+}
 
+impl Room for ItemSpace {
+    // todo
     fn has_items() -> bool {
-        // todo
         true
     }
 

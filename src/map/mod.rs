@@ -1,6 +1,6 @@
 use crate::{
     ascii,
-    space::{self, EmptySpace, ItemSpace, MinotaurSpace, Space},
+    space::{self, EmptySpace, ItemSpace, MinotaurSpace},
 };
 use std::collections::HashMap;
 
@@ -13,17 +13,17 @@ pub enum SpaceType {
 impl SpaceType {
     fn get_space_exits(&self) -> &HashMap<usize, usize> {
         match self {
-            SpaceType::Empty(space) => &space.exits,
-            SpaceType::Item(space) => &space.exits,
-            SpaceType::Minotaur(space) => &space.exits,
+            SpaceType::Empty(e) => &e.space.exits,
+            SpaceType::Item(i) => &i.space.exits,
+            SpaceType::Minotaur(m) => &m.space.exits,
         }
     }
 
     fn get_room_name(&self) -> String {
         match self {
-            SpaceType::Empty(space) => String::from(&space.description),
-            SpaceType::Item(space) => String::from(&space.description),
-            SpaceType::Minotaur(space) => String::from(&space.description),
+            SpaceType::Empty(e) => String::from(&e.space.description),
+            SpaceType::Item(i) => String::from(&i.space.description),
+            SpaceType::Minotaur(m) => String::from(&m.space.description),
         }
     }
 }
