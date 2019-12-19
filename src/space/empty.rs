@@ -5,7 +5,7 @@ use std::{collections::HashMap, io};
 
 pub struct EmptySpace {
     pub description: String,
-    pub exits: HashMap<u8, u8>,
+    pub exits: HashMap<usize, usize>,
 }
 
 impl Space for EmptySpace {

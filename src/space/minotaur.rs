@@ -4,7 +4,7 @@ use std::collections::HashMap;
 
 pub struct MinotaurSpace {
     pub description: String,
-    pub exits: HashMap<u8, u8>,
+    pub exits: HashMap<usize, usize>,
 }
 
 impl Space for MinotaurSpace {

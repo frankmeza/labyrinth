@@ -27,7 +27,7 @@ pub fn lost_in_a_labyrinth() -> String {
     .join("\n")
 }
 
-pub fn get_exit_options(option: &u8) -> String {
+pub fn get_exit_options(option: &usize) -> String {
     match option {
         0 => String::from("enter 1 to exit to the top"),
         1 => String::from("enter 2 to exit to the right"),
