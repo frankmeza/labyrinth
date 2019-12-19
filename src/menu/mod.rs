@@ -5,7 +5,8 @@ fn show_options() -> String {
         "   1 --- play game",
         "   2 --- quit game",
         "______________________________________________",
-    ].join("\n")
+    ]
+    .join("\n")
 }
 
 pub fn display() {
