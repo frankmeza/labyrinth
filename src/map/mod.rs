@@ -1,13 +1,13 @@
 use crate::space::{EmptySpace, ItemSpace, MinotaurSpace, Space};
 
-enum SpaceType {
+pub enum SpaceType {
     EmptySpace(EmptySpace),
     ItemSpace(ItemSpace),
     MinotaurSpace(MinotaurSpace),
 }
 
 pub struct Map {
-    spaces: Vec<SpaceType>,
+    pub spaces: Vec<SpaceType>,
 }
 
 fn generate_spaces() -> Vec<SpaceType> {
@@ -28,5 +28,9 @@ impl Map {
         let spaces = generate_spaces();
 
         Map { spaces }
+    }
+
+    pub fn get_space(&self, index: usize) -> &SpaceType {
+        &self.spaces[index]
     }
 }
