@@ -12,6 +12,7 @@ pub use minotaur::MinotaurSpace;
 pub trait Space {
     fn new(description: String) -> Self;
     fn do_menu(player: &Player) -> bool;
+    fn has_items() -> bool;
 }
 
 pub fn exits(description: &str) -> HashMap<u8, u8> {

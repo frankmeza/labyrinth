@@ -14,6 +14,10 @@ impl Space for MinotaurSpace {
         MinotaurSpace { description, exits }
     }
 
+    fn has_items() -> bool {
+        false
+    }
+
     fn do_menu(_player: &Player) -> bool {
         true
     }

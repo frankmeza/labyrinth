@@ -14,6 +14,12 @@ impl Space for ItemSpace {
         ItemSpace { description, exits }
     }
 
+    fn has_items() -> bool {
+        // todo
+        true
+    }
+
+
     fn do_menu(_player: &Player) -> bool {
         true
     }
