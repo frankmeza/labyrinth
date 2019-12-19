@@ -1,4 +1,5 @@
 use crate::player::Player;
+use crate::story;
 use std::collections::HashMap;
 
 mod empty;
@@ -15,7 +16,7 @@ pub trait Space {
     fn has_items() -> bool;
 }
 
-pub fn exits(description: &str) -> HashMap<u8, u8> {
+pub fn exits(description: &str) -> HashMap<usize, usize> {
     match description {
         "Starting Room" => {
             let mut e = HashMap::new();
@@ -72,8 +73,26 @@ pub fn exits(description: &str) -> HashMap<u8, u8> {
         _ => {
             let mut e = HashMap::new();
             e.insert(0, 0);
-            e.insert(0, 0);
             e
         }
     }
+}
+
+pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
+    let mut exit_options = String::from("");
+    let mut exits: Vec<usize> = vec![];
+
+    // todo put the keys into order before printing
+    for (option, _room) in space_exits {
+        exits.push(*option);
+    }
+    exits.sort();
+
+    for e in 0..exits.len() {
+        let option = story::get_exit_options(&e);
+        exit_options.push_str(&option);
+        exit_options.push_str("\n");
+    }
+
+    exit_options
 }
