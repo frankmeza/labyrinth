@@ -1,4 +1,4 @@
-use crate::{ascii, story};
+use crate::{ascii, story, map::Map, player::Player};
 use std::process;
 
 pub struct Game {}
@@ -11,8 +11,11 @@ impl Game {
         println!("{}", story::star_separator());
     }
 
-    pub fn run() {
+    pub fn run(player: &Player) {
         Game::print_start_message();
+
+        let map = Map::new();
+        map.enter_labyrinth(player);
     }
 
     pub fn quit() {

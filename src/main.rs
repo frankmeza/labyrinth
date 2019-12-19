@@ -11,16 +11,13 @@ mod story;
 mod utils;
 
 use game::Game;
-use map::Map;
-// use player::Player;
+use player::Player;
 
 fn main() {
     menu::display();
     let mut is_valid_choice = false;
 
-    // let player = Player::new();
-    // let game = Game::new();
-    let map = Map::new();
+    let player = Player::new();
 
     while !is_valid_choice {
         let mut menu_choice = String::new();
@@ -31,12 +28,10 @@ fn main() {
 
         if is_valid_choice {
             if will_continue {
-                Game::run();
+                Game::run(&player);
             } else {
                 Game::quit();
             }
         }
-
-        map.enter_labyrinth();
     }
 }
