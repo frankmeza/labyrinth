@@ -26,8 +26,7 @@ fn generate_spaces() -> Vec<SpaceType> {
 impl Map {
     pub fn new() -> Self {
         let spaces = generate_spaces();
-        Map {
-            spaces,
-        }
+
+        Map { spaces }
     }
 }
