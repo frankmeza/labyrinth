@@ -1,14 +1,31 @@
+use crate::{
+    ascii, constants,
+    item::Item,
+    space::{EmptySpace, SpaceType},
+};
+
 pub struct Player {
     pub torch_lit: bool,
+    pub current_room: SpaceType,
+    pub inventory: Vec<Item>,
 }
 
 impl Player {
     pub fn new() -> Self {
-        let mut player = Player {
-            torch_lit: false,
-        };
+        let starting_room =
+            SpaceType::Empty(EmptySpace::new(String::from(constants::STARTING_ROOM)));
 
-        player
+        let matches = Item::new(
+            String::from("matches"),
+            String::from("box of matches"),
+            ascii::matches(),
+        );
+
+        Player {
+            torch_lit: true,
+            current_room: starting_room,
+            inventory: vec![matches],
+        }
     }
 
     pub fn get_torch_lit(&self) -> bool {

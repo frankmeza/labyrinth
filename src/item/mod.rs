@@ -1,4 +1,4 @@
-pub trait Item {
+pub struct Item {
     name: String,
     description: String,
     art: String,
@@ -14,14 +14,14 @@ impl Item {
     }
 
     pub fn get_name(&self) -> String {
-        self.name
+        String::from(&self.name)
     }
 
     pub fn get_description(&self) -> String {
-        self.description
+        String::from(&self.description)
     }
 
     pub fn get_art(&self) -> String {
-        self.art
+        String::from(&self.art)
     }
 }

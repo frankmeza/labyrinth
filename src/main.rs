@@ -3,6 +3,7 @@ use std::io;
 mod ascii;
 mod constants;
 mod game;
+mod item;
 mod map;
 mod menu;
 mod player;
