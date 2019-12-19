@@ -36,8 +36,6 @@ fn main() {
             }
         }
 
-        let starting_room = map.get_space(0);
-
-        // story takes over?
+        map.enter_labyrinth();
     }
 }
