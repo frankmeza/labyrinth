@@ -15,6 +15,17 @@ pub struct Space {
     pub exits: HashMap<usize, usize>,
 }
 
+pub enum SpaceType {
+    Empty(EmptySpace),
+    Item(ItemSpace),
+    Minotaur(MinotaurSpace),
+}
+
+pub trait Room {
+    fn do_menu(player: &Player) -> bool;
+    fn has_items() -> bool;
+}
+
 impl Space {
     fn new(description: String) -> Self {
         let exits = self::exits(&description);
@@ -22,9 +33,22 @@ impl Space {
     }
 }
 
-pub trait Room {
-    fn do_menu(player: &Player) -> bool;
-    fn has_items() -> bool;
+impl SpaceType {
+    pub fn get_space_exits(&self) -> &HashMap<usize, usize> {
+        match self {
+            SpaceType::Empty(e) => &e.space.exits,
+            SpaceType::Item(i) => &i.space.exits,
+            SpaceType::Minotaur(m) => &m.space.exits,
+        }
+    }
+
+    pub fn get_room_name(&self) -> String {
+        match self {
+            SpaceType::Empty(e) => String::from(&e.space.description),
+            SpaceType::Item(i) => String::from(&i.space.description),
+            SpaceType::Minotaur(m) => String::from(&m.space.description),
+        }
+    }
 }
 
 pub fn exits(description: &str) -> HashMap<usize, usize> {

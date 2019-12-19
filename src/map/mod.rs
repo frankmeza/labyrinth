@@ -1,32 +1,7 @@
 use crate::{
     ascii,
-    space::{self, EmptySpace, ItemSpace, MinotaurSpace},
+    space::{self, EmptySpace, ItemSpace, MinotaurSpace, SpaceType},
 };
-use std::collections::HashMap;
-
-pub enum SpaceType {
-    Empty(EmptySpace),
-    Item(ItemSpace),
-    Minotaur(MinotaurSpace),
-}
-
-impl SpaceType {
-    fn get_space_exits(&self) -> &HashMap<usize, usize> {
-        match self {
-            SpaceType::Empty(e) => &e.space.exits,
-            SpaceType::Item(i) => &i.space.exits,
-            SpaceType::Minotaur(m) => &m.space.exits,
-        }
-    }
-
-    fn get_room_name(&self) -> String {
-        match self {
-            SpaceType::Empty(e) => String::from(&e.space.description),
-            SpaceType::Item(i) => String::from(&i.space.description),
-            SpaceType::Minotaur(m) => String::from(&m.space.description),
-        }
-    }
-}
 
 pub struct Map {
     pub spaces: Vec<SpaceType>,
