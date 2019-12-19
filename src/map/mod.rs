@@ -1,27 +1,29 @@
-use crate::ascii;
-use crate::space::{self, EmptySpace, ItemSpace, MinotaurSpace, Space};
+use crate::{
+    ascii,
+    space::{self, EmptySpace, ItemSpace, MinotaurSpace, Space},
+};
 use std::collections::HashMap;
 
 pub enum SpaceType {
-    EmptySpace(EmptySpace),
-    ItemSpace(ItemSpace),
-    MinotaurSpace(MinotaurSpace),
+    Empty(EmptySpace),
+    Item(ItemSpace),
+    Minotaur(MinotaurSpace),
 }
 
 impl SpaceType {
     fn get_space_exits(&self) -> &HashMap<usize, usize> {
         match self {
-            SpaceType::EmptySpace(space) => &space.exits,
-            SpaceType::ItemSpace(space) => &space.exits,
-            SpaceType::MinotaurSpace(space) => &space.exits,
+            SpaceType::Empty(space) => &space.exits,
+            SpaceType::Item(space) => &space.exits,
+            SpaceType::Minotaur(space) => &space.exits,
         }
     }
 
     fn get_room_name(&self) -> String {
         match self {
-            SpaceType::EmptySpace(space) => String::from(&space.description),
-            SpaceType::ItemSpace(space) => String::from(&space.description),
-            SpaceType::MinotaurSpace(space) => String::from(&space.description),
+            SpaceType::Empty(space) => String::from(&space.description),
+            SpaceType::Item(space) => String::from(&space.description),
+            SpaceType::Minotaur(space) => String::from(&space.description),
         }
     }
 }
@@ -32,21 +34,20 @@ pub struct Map {
 
 fn generate_spaces() -> Vec<SpaceType> {
     vec![
-        SpaceType::EmptySpace(EmptySpace::new(String::from("Starting Room"))),
-        SpaceType::ItemSpace(ItemSpace::new(String::from("Room 1"))),
-        SpaceType::EmptySpace(EmptySpace::new(String::from("Room 2"))),
-        SpaceType::ItemSpace(ItemSpace::new(String::from("Room 3"))),
-        SpaceType::ItemSpace(ItemSpace::new(String::from("Room 4"))),
-        SpaceType::EmptySpace(EmptySpace::new(String::from("Room 5"))),
-        SpaceType::ItemSpace(ItemSpace::new(String::from("Room 6"))),
-        SpaceType::MinotaurSpace(MinotaurSpace::new(String::from("Final Room"))),
+        SpaceType::Empty(EmptySpace::new(String::from("Starting Room"))),
+        SpaceType::Item(ItemSpace::new(String::from("Room 1"))),
+        SpaceType::Empty(EmptySpace::new(String::from("Room 2"))),
+        SpaceType::Item(ItemSpace::new(String::from("Room 3"))),
+        SpaceType::Item(ItemSpace::new(String::from("Room 4"))),
+        SpaceType::Empty(EmptySpace::new(String::from("Room 5"))),
+        SpaceType::Item(ItemSpace::new(String::from("Room 6"))),
+        SpaceType::Minotaur(MinotaurSpace::new(String::from("Final Room"))),
     ]
 }
 
 impl Map {
     pub fn new() -> Self {
         let spaces = generate_spaces();
-
         Map { spaces }
     }
 

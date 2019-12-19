@@ -1,17 +1,9 @@
-use crate::{ascii, player, story};
+use crate::{ascii, story};
 use std::process;
 
-pub struct Game {
-    player: player::Player,
-}
+pub struct Game {}
 
 impl Game {
-    pub fn new() -> Self {
-        let player = player::Player { torch_lit: true };
-
-        Game { player }
-    }
-
     fn print_start_message() {
         println!("{}", story::star_separator());
         println!("{}", story::lost_in_a_labyrinth());
