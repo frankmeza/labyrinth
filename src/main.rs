@@ -1,6 +1,7 @@
 use std::io;
 
 mod ascii;
+mod constants;
 mod game;
 mod map;
 mod menu;

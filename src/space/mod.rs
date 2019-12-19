@@ -1,5 +1,4 @@
-use crate::player::Player;
-use crate::story;
+use crate::{constants, player::Player, story};
 use std::collections::HashMap;
 
 mod empty;
@@ -53,7 +52,7 @@ impl SpaceType {
 
 pub fn exits(description: &str) -> HashMap<usize, usize> {
     match description {
-        "Starting Room" => {
+        constants::STARTING_ROOM => {
             let mut e = HashMap::new();
             e.insert(0, 1);
             e.insert(1, 2);
@@ -61,45 +60,45 @@ pub fn exits(description: &str) -> HashMap<usize, usize> {
             e.insert(3, 5);
             e
         }
-        "Room 1" => {
+        constants::ROOM_1 => {
             let mut e = HashMap::new();
             e.insert(1, 3);
             e.insert(2, 0);
             e
         }
-        "Room 2" => {
+        constants::ROOM_2 => {
             let mut e = HashMap::new();
             e.insert(0, 3);
             e.insert(2, 6);
             e.insert(3, 0);
             e
         }
-        "Room 3" => {
+        constants::ROOM_3 => {
             let mut e = HashMap::new();
             e.insert(2, 3);
             e.insert(3, 1);
             e
         }
-        "Room 4" => {
+        constants::ROOM_4 => {
             let mut e = HashMap::new();
             e.insert(0, 0);
             e.insert(1, 6);
             e.insert(3, 7);
             e
         }
-        "Room 5" => {
+        constants::ROOM_5 => {
             let mut e = HashMap::new();
             e.insert(1, 0);
             e.insert(2, 7);
             e
         }
-        "Room 6" => {
+        constants::ROOM_6 => {
             let mut e = HashMap::new();
             e.insert(0, 2);
             e.insert(3, 4);
             e
         }
-        "Final Room" => {
+        constants::FINAL_ROOM => {
             let mut e = HashMap::new();
             e.insert(0, 5);
             e.insert(1, 4);
