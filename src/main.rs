@@ -28,10 +28,12 @@ fn main() {
         let choice: &str = menu_choice.as_str().trim();
         let will_continue = utils::handle_choice(&choice, &mut is_valid_choice);
 
-        if will_continue {
-            Game::run();
-        } else {
-            Game::quit();
+        if is_valid_choice {
+            if will_continue {
+                Game::run();
+            } else {
+                Game::quit();
+            }
         }
 
         // story takes over?

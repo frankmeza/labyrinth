@@ -19,7 +19,6 @@ impl Space for ItemSpace {
         true
     }
 
-
     fn do_menu(_player: &Player) -> bool {
         true
     }
