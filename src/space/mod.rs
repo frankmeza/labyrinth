@@ -21,7 +21,8 @@ pub enum SpaceType {
 }
 
 pub trait Room {
-    fn do_menu(player: &Player) -> bool;
+    // fn do_menu(player: &Player) -> bool;
+    fn do_menu(&self, player: &Player) -> bool;
     fn has_items() -> bool;
 }
 
@@ -46,6 +47,14 @@ impl SpaceType {
             SpaceType::Empty(e) => String::from(&e.space.description),
             SpaceType::Item(i) => String::from(&i.space.description),
             SpaceType::Minotaur(m) => String::from(&m.space.description),
+        }
+    }
+
+    pub fn get_room_menu(&self, player: &Player) -> String {
+        match self {
+            SpaceType::Empty(space) => String::from(&space.do_menu(player)),
+            SpaceType::Item(i) => String::from(&i.space.do_menu()),
+            SpaceType::Minotaur(m) => String::from(&m.space.do_menu()),
         }
     }
 }

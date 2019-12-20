@@ -47,7 +47,7 @@ impl Map {
         &self.spaces[index]
     }
 
-    pub fn enter_labyrinth(&self, _player: &Player) {
+    pub fn enter_labyrinth(&self, player: &Player) {
         let starting_room = self.get_space(0);
         let exits = starting_room.get_space_exits();
 
@@ -56,5 +56,8 @@ impl Map {
 
         println!("{}\n", ascii::lit_torch());
         println!("{}", space::get_exit_options(exits));
+
+        // call fn that checks if current room has a menu to display
+        starting_room.get_room_menu();
     }
 }

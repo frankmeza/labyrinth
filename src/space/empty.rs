@@ -13,14 +13,8 @@ impl EmptySpace {
             space: Space::new(String::from(&description)),
         }
     }
-}
 
-impl Room for EmptySpace {
-    fn has_items() -> bool {
-        false
-    }
-
-    fn do_menu(player: &Player) -> bool {
+    pub fn do_menu(player: &Player) -> bool {
         let mut got_input = false;
 
         let mut input = String::new();
@@ -38,6 +32,17 @@ impl Room for EmptySpace {
 
         true
     }
+}
+
+impl Room for EmptySpace {
+    fn has_items() -> bool {
+        false
+    }
+
+    fn do_menu(&self, player: &Player) -> bool {
+        self.do_menu(player)
+    }
+
 }
 
 impl EmptySpace {}

@@ -13,6 +13,10 @@ impl ItemSpace {
             space: Space::new(String::from(&description)),
         }
     }
+
+    pub fn do_menu(&self, _player: &Player) -> bool {
+        true
+    }
 }
 
 impl Room for ItemSpace {
@@ -21,7 +25,7 @@ impl Room for ItemSpace {
         true
     }
 
-    fn do_menu(_player: &Player) -> bool {
-        true
+    fn do_menu(&self, player: &Player) -> bool {
+        self.do_menu(player)
     }
 }

@@ -11,6 +11,10 @@ impl MinotaurSpace {
             space: Space::new(String::from(&description)),
         }
     }
+
+    pub fn do_menu(_player: &Player) -> bool {
+        true
+    }
 }
 
 impl Room for MinotaurSpace {
@@ -19,7 +23,7 @@ impl Room for MinotaurSpace {
         false
     }
 
-    fn do_menu(_player: &Player) -> bool {
-        true
+    fn do_menu(&self, player: &Player) -> bool {
+        self.do_menu(player)
     }
 }
