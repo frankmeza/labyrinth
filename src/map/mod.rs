@@ -58,6 +58,6 @@ impl Map {
         println!("{}", space::get_exit_options(exits));
 
         // call fn that checks if current room has a menu to display
-        starting_room.get_room_menu();
+        starting_room.get_room_menu(player);
     }
 }
