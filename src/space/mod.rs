@@ -1,4 +1,4 @@
-use crate::{constants, player::Player, story};
+use crate::{constants, item::Item, player::Player, story};
 use std::collections::HashMap;
 
 mod empty;
@@ -12,6 +12,7 @@ pub use minotaur::MinotaurSpace;
 pub struct Space {
     pub description: String,
     pub exits: HashMap<usize, usize>,
+    pub items: Vec<Item>,
 }
 
 pub enum SpaceType {
@@ -28,7 +29,8 @@ pub trait Room {
 impl Space {
     fn new(description: String) -> Self {
         let exits = self::exits(&description);
-        Space { description, exits }
+        let items = vec![];
+        Space { description, exits, items }
     }
 }
 
