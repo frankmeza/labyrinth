@@ -16,11 +16,7 @@ impl EmptySpace {
 }
 
 impl Room for EmptySpace {
-    fn has_items() -> bool {
-        false
-    }
-
-    fn do_menu(player: &Player) -> bool {
+    fn do_menu(&self, player: &Player) -> bool {
         let mut got_input = false;
 
         let mut input = String::new();
@@ -30,7 +26,9 @@ impl Room for EmptySpace {
             if player.get_torch_lit() {
                 println!("{}", ascii::lit_torch());
 
-                // if EmptySpace::has_items() is false, right?
+                if self.space.has_items() {
+
+                }
 
                 // now get the map to know the exits for this room
             }

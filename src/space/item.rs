@@ -16,12 +16,8 @@ impl ItemSpace {
 }
 
 impl Room for ItemSpace {
-    // todo
-    fn has_items() -> bool {
-        true
-    }
-
-    fn do_menu(_player: &Player) -> bool {
+    fn do_menu(&self, _player: &Player) -> bool {
+        let s = self;
         true
     }
 }

@@ -22,8 +22,7 @@ pub enum SpaceType {
 }
 
 pub trait Room {
-    fn do_menu(player: &Player) -> bool;
-    fn has_items() -> bool;
+    fn do_menu(&self, player: &Player) -> bool;
 }
 
 impl Space {
@@ -31,6 +30,10 @@ impl Space {
         let exits = self::exits(&description);
         let items = vec![];
         Space { description, exits, items }
+    }
+
+    pub fn has_items(&self) -> bool {
+        self.items.len() > 0
     }
 }
 

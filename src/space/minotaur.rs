@@ -14,12 +14,8 @@ impl MinotaurSpace {
 }
 
 impl Room for MinotaurSpace {
-    // todo
-    fn has_items() -> bool {
-        false
-    }
-
-    fn do_menu(_player: &Player) -> bool {
+    fn do_menu(&self, _player: &Player) -> bool {
+        let s = self;
         true
     }
 }
