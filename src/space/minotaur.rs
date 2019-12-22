@@ -13,9 +13,9 @@ impl MinotaurSpace {
     }
 }
 
-impl Room for MinotaurSpace {
-    fn do_menu(&self, _player: &Player) -> bool {
-        let s = self;
-        true
-    }
-}
+// impl Room for MinotaurSpace {
+//     fn do_menu(&self, _player: &Player) -> bool {
+//         let s = self;
+//         true
+//     }
+// }

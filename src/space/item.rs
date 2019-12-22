@@ -15,9 +15,9 @@ impl ItemSpace {
     }
 }
 
-impl Room for ItemSpace {
-    fn do_menu(&self, _player: &Player) -> bool {
-        let s = self;
-        true
-    }
-}
+// impl Room for ItemSpace {
+//     fn do_menu(&self, _player: &Player) -> bool {
+//         let s = self;
+//         true
+//     }
+// }
