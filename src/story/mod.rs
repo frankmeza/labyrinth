@@ -52,3 +52,7 @@ pub fn view_items() -> String {
 pub fn drop_item() -> String {
     String::from("enter d to drop an item")
 }
+
+pub fn quit_game() -> String {
+    String::from("enter q to quit game")
+}

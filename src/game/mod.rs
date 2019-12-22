@@ -18,6 +18,10 @@ impl Game {
         map.enter_labyrinth(player);
     }
 
+    pub fn quit_game() -> String {
+        story::quit_game()
+    }
+
     pub fn quit() {
         process::exit(0);
     }
