@@ -15,7 +15,8 @@ use game::Game;
 use player::Player;
 
 fn main() {
-    menu::show_options();
+    println!("{}", menu::show_options());
+
     let mut is_valid_choice = false;
 
     let player = Player::new();
