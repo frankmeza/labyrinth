@@ -17,15 +17,6 @@ pub fn can_relight_torch() -> String {
     .join("\n")
 }
 
-pub fn cannot_relight_torch() -> String {
-    vec![
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-        "without a lit torch you can't do anything and now you lose",
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    ]
-    .join("\n")
-}
-
 pub fn get_exit_options(option: &usize) -> String {
     match option {
         0 => String::from("enter 1 to exit to the top"),

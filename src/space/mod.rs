@@ -84,7 +84,7 @@ impl Space {
                 if player.has_item("matches") {
                     println!("{}", menu::can_relight_torch());
                 } else {
-                    println!("{}", menu::cannot_relight_torch());
+                    println!("{}", story::cannot_relight_torch());
                     Game::quit();
                 }
             }

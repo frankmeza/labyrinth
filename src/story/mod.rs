@@ -30,3 +30,12 @@ pub fn lost_in_a_labyrinth() -> String {
 pub fn items_on_ground() -> String {
     String::from("there are items on the ground")
 }
+
+pub fn cannot_relight_torch() -> String {
+    vec![
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "without a lit torch you can't do anything and now you lose",
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    ]
+    .join("\n")
+}
