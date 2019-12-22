@@ -77,7 +77,7 @@ impl Space {
                     Player::handle_player_has_items();
                 }
 
-                println!("{}", Game::quit_game());
+                println!("{}", menu::quit_game());
 
                 got_input = true // this is to be moved
             } else {
@@ -193,7 +193,7 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
     exits.sort();
 
     for e in 0..exits.len() {
-        let option = story::get_exit_options(&e);
+        let option = menu::get_exit_options(&e);
         exit_options.push_str(&option);
         exit_options.push_str("\n");
     }

@@ -1,4 +1,4 @@
-fn show_options() -> String {
+pub fn show_options() -> String {
     vec![
         "______________________________________________",
         "-------------------- MENU --------------------",
@@ -48,6 +48,6 @@ pub fn drop_item() -> String {
     String::from("enter d to drop an item")
 }
 
-// pub fn display() {
-//     println!("{}", show_options());
-// }
+pub fn quit_game() -> String {
+    String::from("enter q to quit game")
+}

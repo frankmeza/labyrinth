@@ -30,19 +30,3 @@ pub fn lost_in_a_labyrinth() -> String {
 pub fn items_on_ground() -> String {
     String::from("there are items on the ground")
 }
-
-pub fn pick_up_items() -> String {
-    String::from("enter 0 to pick up the items")
-}
-
-pub fn view_items() -> String {
-    String::from("enter i to view your items")
-}
-
-pub fn drop_item() -> String {
-    String::from("enter d to drop an item")
-}
-
-pub fn quit_game() -> String {
-    String::from("enter q to quit game")
-}

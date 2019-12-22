@@ -1,4 +1,4 @@
-use crate::{ascii, story, map::Map, player::Player};
+use crate::{ascii, story, map::Map, menu, player::Player};
 use std::process;
 
 pub struct Game {}
@@ -16,10 +16,6 @@ impl Game {
 
         let map = Map::new();
         map.enter_labyrinth(player);
-    }
-
-    pub fn quit_game() -> String {
-        story::quit_game()
     }
 
     pub fn quit() {

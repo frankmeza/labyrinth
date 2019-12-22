@@ -39,7 +39,7 @@ impl Player {
 
     pub fn has_item(&self, item_name: &str) -> bool {
         let mut iter = self.inventory.iter();
-        let has_item = &iter.find(|&item| item.name == item_name);
+        let has_item = &iter.find(|&item| item.get_name() == item_name);
 
         match has_item {
             None => false,
