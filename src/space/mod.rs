@@ -1,4 +1,4 @@
-use crate::{ascii, constants, item::Item, player::Player, story};
+use crate::{ascii, constants, game::Game, item::Item, menu, player::Player, story};
 use std::{collections::HashMap, io};
 
 mod empty;
@@ -46,7 +46,7 @@ impl Space {
         &self.description == constants::FINAL_ROOM
     }
 
-    fn handle_has_items(items: &Vec<Item>) {
+    fn handle_space_has_items(items: &Vec<Item>) {
         println!("{}", story::items_on_ground());
 
         for item in items.iter() {
@@ -70,15 +70,23 @@ impl Space {
                 println!("{}", ascii::lit_torch());
 
                 if self.has_items() {
-                    Space::handle_has_items(&self.items);
+                    Space::handle_space_has_items(&self.items);
                 }
 
                 if player.has_items() {
                     Player::handle_player_has_items();
                 }
 
-                // now get the map to know the exits for this room
-                got_input = true
+                println!("{}", Game::quit_game());
+
+                got_input = true // this is to be moved
+            } else {
+                if player.has_item("matches") {
+                    println!("{}", menu::can_relight_torch());
+                } else {
+                    println!("{}", menu::cannot_relight_torch());
+                    Game::quit();
+                }
             }
         }
 

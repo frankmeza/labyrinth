@@ -37,6 +37,16 @@ impl Player {
         self.inventory.len() > 0
     }
 
+    pub fn has_item(&self, item_name: &str) -> bool {
+        let mut iter = self.inventory.iter();
+        let has_item = &iter.find(|&item| item.name == item_name);
+
+        match has_item {
+            None => false,
+            Some(_item) => true
+        }
+    }
+
     pub fn handle_player_has_items() {
         println!("{}", story::view_items());
         println!("{}", story::drop_item());
