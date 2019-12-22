@@ -2,6 +2,7 @@ use crate::{
     ascii, constants,
     item::Item,
     space::{EmptySpace, SpaceType},
+    story,
 };
 
 pub struct Player {
@@ -30,5 +31,14 @@ impl Player {
 
     pub fn get_torch_lit(&self) -> bool {
         self.torch_lit
+    }
+
+    pub fn has_items(&self) -> bool {
+        self.inventory.len() > 0
+    }
+
+    pub fn handle_player_has_items() {
+        println!("{}", story::view_items());
+        println!("{}", story::drop_item());
     }
 }

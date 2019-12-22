@@ -1,5 +1,5 @@
-use crate::{constants, item::Item, player::Player, story};
-use std::collections::HashMap;
+use crate::{ascii, constants, item::Item, player::Player, story};
+use std::{collections::HashMap, io};
 
 mod empty;
 mod item;
@@ -21,6 +21,7 @@ pub enum SpaceType {
     Minotaur(MinotaurSpace),
 }
 
+// on the chopping block?
 pub trait Room {
     fn do_menu(&self, player: &Player) -> bool;
 }
@@ -29,15 +30,71 @@ impl Space {
     fn new(description: String) -> Self {
         let exits = self::exits(&description);
         let items = vec![];
-        Space { description, exits, items }
+
+        Space {
+            description,
+            exits,
+            items,
+        }
     }
 
     pub fn has_items(&self) -> bool {
         self.items.len() > 0
     }
+
+    fn is_minotaur_space(&self) -> bool {
+        &self.description == constants::FINAL_ROOM
+    }
+
+    fn handle_has_items(items: &Vec<Item>) {
+        println!("{}", story::items_on_ground());
+
+        for item in items.iter() {
+            println!("{}", item.get_description());
+            println!("{}", item.get_art());
+        }
+
+        println!("{}", story::pick_up_items());
+    }
+
+    // empty and item will be exact duplicates
+    // self will check for is minotaur
+    pub fn do_menu(&self, player: &Player) -> bool {
+        let mut got_input = false;
+
+        let mut input = String::from("");
+        io::stdin().read_line(&mut input).unwrap().to_string();
+
+        while !got_input {
+            if player.get_torch_lit() {
+                println!("{}", ascii::lit_torch());
+
+                if self.has_items() {
+                    Space::handle_has_items(&self.items);
+                }
+
+                if player.has_items() {
+                    Player::handle_player_has_items();
+                }
+
+                // now get the map to know the exits for this room
+                got_input = true
+            }
+        }
+
+        true
+    }
 }
 
 impl SpaceType {
+    pub fn get_space(&self) -> &Space {
+        match self {
+            SpaceType::Empty(e) => &e.space,
+            SpaceType::Item(i) => &i.space,
+            SpaceType::Minotaur(m) => &m.space,
+        }
+    }
+
     pub fn get_space_exits(&self) -> &HashMap<usize, usize> {
         match self {
             SpaceType::Empty(e) => &e.space.exits,
