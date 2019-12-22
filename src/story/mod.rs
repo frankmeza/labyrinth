@@ -27,16 +27,6 @@ pub fn lost_in_a_labyrinth() -> String {
     .join("\n")
 }
 
-pub fn get_exit_options(option: &usize) -> String {
-    match option {
-        0 => String::from("enter 1 to exit to the top"),
-        1 => String::from("enter 2 to exit to the right"),
-        2 => String::from("enter 3 to exit to the bottom"),
-        3 => String::from("enter 4 to exit to the left"),
-        _ => String::from(""),
-    }
-}
-
 pub fn items_on_ground() -> String {
     String::from("there are items on the ground")
 }

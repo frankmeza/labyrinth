@@ -1,7 +1,4 @@
-use crate::{
-    player::Player,
-    space::{Room, Space},
-};
+use crate::space::Space;
 
 pub struct ItemSpace {
     pub space: Space,
@@ -14,10 +11,3 @@ impl ItemSpace {
         }
     }
 }
-
-// impl Room for ItemSpace {
-//     fn do_menu(&self, _player: &Player) -> bool {
-//         let s = self;
-//         true
-//     }
-// }

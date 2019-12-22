@@ -1,5 +1,4 @@
-use crate::player::Player;
-use crate::space::{Room, Space};
+use crate::space::Space;
 
 pub struct MinotaurSpace {
     pub space: Space,
@@ -12,10 +11,3 @@ impl MinotaurSpace {
         }
     }
 }
-
-// impl Room for MinotaurSpace {
-//     fn do_menu(&self, _player: &Player) -> bool {
-//         let s = self;
-//         true
-//     }
-// }

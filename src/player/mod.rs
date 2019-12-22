@@ -2,7 +2,7 @@ use crate::{
     ascii, constants,
     item::Item,
     space::{EmptySpace, SpaceType},
-    story,
+    menu,
 };
 
 pub struct Player {
@@ -48,7 +48,7 @@ impl Player {
     }
 
     pub fn handle_player_has_items() {
-        println!("{}", story::view_items());
-        println!("{}", story::drop_item());
+        println!("{}", menu::view_items());
+        println!("{}", menu::drop_item());
     }
 }

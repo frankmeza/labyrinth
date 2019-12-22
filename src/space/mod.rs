@@ -54,7 +54,7 @@ impl Space {
             println!("{}", item.get_art());
         }
 
-        println!("{}", story::pick_up_items());
+        println!("{}", menu::pick_up_items());
     }
 
     // empty and item will be exact duplicates
