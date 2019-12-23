@@ -73,8 +73,6 @@ impl Space {
                 }
 
                 println!("{}", menu::quit_game());
-
-                got_input = true // this is to be moved
             } else {
                 if player.has_item("matches") {
                     println!("{}", menu::can_relight_torch());
@@ -84,7 +82,7 @@ impl Space {
                 }
             }
 
-            let some_bool_value = menu::handle_move_to_room(&input, &mut got_input, player);
+            got_input = menu::handle_move_to_room(&input, player);
         }
 
         true
