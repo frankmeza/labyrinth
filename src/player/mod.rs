@@ -1,14 +1,9 @@
-use crate::{
-    ascii, constants,
-    item::Item,
-    map::Map,
-    menu,
-};
-
+use crate::{ascii, constants, item::Item, menu};
+#[derive(Debug)]
 pub struct Player {
     pub torch_lit: bool,
     pub current_room: String,
-    pub inventory: Vec<Item>,
+    pub inventory: Vec<String>,
 }
 
 impl Player {
@@ -22,20 +17,16 @@ impl Player {
         Player {
             torch_lit: true,
             current_room: String::from(constants::STARTING_ROOM),
-            inventory: vec![matches],
+            inventory: vec![matches.get_name()],
         }
     }
 
-    pub fn set_current_room(self, room_index: &str) -> Self {
-        let map = Map::new();
-        let index: usize = room_index.parse().unwrap();
-
-        let room = map.get_space(index);
-
-        Self {
-            current_room: room.get_room_name(),
-            ..self
-        }
+    pub fn set_current_room(&mut self, room_name: &str) {
+        *self = Player {
+            current_room: String::from(room_name),
+            inventory: self.inventory.clone(),
+            torch_lit: self.get_torch_lit(),
+        };
     }
 
     pub fn get_torch_lit(&self) -> bool {
@@ -48,7 +39,7 @@ impl Player {
 
     pub fn has_item(&self, item_name: &str) -> bool {
         let mut iter = self.inventory.iter();
-        let has_item = &iter.find(|&item| item.get_name() == item_name);
+        let has_item = &iter.find(|&item| item == item_name);
 
         match has_item {
             None => false,
