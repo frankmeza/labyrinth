@@ -19,7 +19,7 @@ fn main() {
 
     let mut is_valid_choice = false;
 
-    let player = Player::new();
+    let mut player = Player::new();
 
     while !is_valid_choice {
         let mut menu_choice = String::new();
@@ -30,7 +30,7 @@ fn main() {
 
         if is_valid_choice {
             if will_continue {
-                Game::run(&player);
+                Game::run(&mut player);
             } else {
                 Game::quit();
             }

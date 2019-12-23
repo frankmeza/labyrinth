@@ -1,21 +1,18 @@
 use crate::{
     ascii, constants,
     item::Item,
-    space::{EmptySpace, SpaceType},
+    map::Map,
     menu,
 };
 
 pub struct Player {
     pub torch_lit: bool,
-    pub current_room: SpaceType,
+    pub current_room: String,
     pub inventory: Vec<Item>,
 }
 
 impl Player {
     pub fn new() -> Self {
-        let starting_room =
-            SpaceType::Empty(EmptySpace::new(String::from(constants::STARTING_ROOM)));
-
         let matches = Item::new(
             String::from("matches"),
             String::from("box of matches"),
@@ -24,8 +21,20 @@ impl Player {
 
         Player {
             torch_lit: true,
-            current_room: starting_room,
+            current_room: String::from(constants::STARTING_ROOM),
             inventory: vec![matches],
+        }
+    }
+
+    pub fn set_current_room(self, room_index: &str) -> Self {
+        let map = Map::new();
+        let index: usize = room_index.parse().unwrap();
+
+        let room = map.get_space(index);
+
+        Self {
+            current_room: room.get_room_name(),
+            ..self
         }
     }
 
@@ -43,7 +52,7 @@ impl Player {
 
         match has_item {
             None => false,
-            Some(_item) => true
+            Some(_item) => true,
         }
     }
 

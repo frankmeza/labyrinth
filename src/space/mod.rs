@@ -21,11 +21,6 @@ pub enum SpaceType {
     Minotaur(MinotaurSpace),
 }
 
-// on the chopping block?
-pub trait Room {
-    fn do_menu(&self, player: &Player) -> bool;
-}
-
 impl Space {
     fn new(description: String) -> Self {
         let exits = self::exits(&description);
@@ -59,7 +54,7 @@ impl Space {
 
     // empty and item will be exact duplicates
     // self will check for is minotaur
-    pub fn do_menu(&self, player: &Player) -> bool {
+    pub fn do_menu(&self, player: &mut Player) -> bool {
         let mut got_input = false;
 
         let mut input = String::from("");
@@ -88,6 +83,8 @@ impl Space {
                     Game::quit();
                 }
             }
+
+            let some_bool_value = menu::handle_move_to_room(&input, &mut got_input, player);
         }
 
         true

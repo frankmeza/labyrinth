@@ -27,11 +27,11 @@ impl Map {
         Map { spaces }
     }
 
-    fn get_space(&self, index: usize) -> &SpaceType {
+    pub fn get_space(&self, index: usize) -> &SpaceType {
         &self.spaces[index]
     }
 
-    pub fn enter_labyrinth(&self, player: &Player) {
+    pub fn enter_labyrinth(&self, player: &mut Player) {
         let starting_room = self.get_space(0);
         let exits = starting_room.get_space_exits();
 
@@ -44,7 +44,7 @@ impl Map {
         Map::handle_arrive_in_room(&self, &starting_room, player);
     }
 
-    pub fn handle_arrive_in_room(&self, room: &SpaceType, player: &Player) {
+    pub fn handle_arrive_in_room(&self, room: &SpaceType, player: &mut Player) {
         let space = room.get_space();
         space.do_menu(player);
         // call do menu in here on room

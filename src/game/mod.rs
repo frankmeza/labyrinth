@@ -11,7 +11,7 @@ impl Game {
         println!("{}", story::star_separator());
     }
 
-    pub fn run(player: &Player) {
+    pub fn run(player: &mut Player) {
         Game::print_start_message();
 
         let map = Map::new();
