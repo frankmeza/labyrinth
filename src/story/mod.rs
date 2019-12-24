@@ -39,3 +39,7 @@ pub fn cannot_relight_torch() -> String {
     ]
     .join("\n")
 }
+
+pub fn player_cannot_pick_up_item() -> String {
+    String::from("you don't have any more room in your inventory! you might need to leave something behind")
+}
