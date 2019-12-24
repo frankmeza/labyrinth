@@ -1,6 +1,6 @@
 #[derive(Debug)]
 pub struct Item {
-    pub name: String,
+    name: String,
     description: String,
     art: String,
 }

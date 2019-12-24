@@ -1,4 +1,4 @@
-use crate::{ascii, constants, game::Game, item::Item, menu, player::Player, story};
+use crate::{ascii, constants, game::Game, item::Item, map::Map, menu, player::Player, story};
 use std::{collections::HashMap, io};
 
 mod empty;
@@ -41,17 +41,6 @@ impl Space {
         &self.description == constants::FINAL_ROOM
     }
 
-    fn handle_space_has_items(items: &Vec<Item>) {
-        println!("{}", story::items_on_ground());
-
-        for item in items.iter() {
-            println!("{}", item.get_description());
-            println!("{}", item.get_art());
-        }
-
-        println!("{}", menu::pick_up_items());
-    }
-
     // empty and item will be exact duplicates
     // self will check for is minotaur
     pub fn do_menu(&self, player: &mut Player) -> bool {
@@ -82,8 +71,78 @@ impl Space {
                 }
             }
 
-            got_input = menu::handle_move_to_room(&input, player);
+            got_input = Space::handle_move_to_room(&input, player);
         }
+
+        true
+    }
+
+    //////////////////////////
+    // ASSOCIATED FUNCTIONS //
+    //////////////////////////
+
+    fn handle_space_has_items(items: &Vec<Item>) {
+        println!("{}", story::items_on_ground());
+
+        for item in items.iter() {
+            println!("{}", item.get_description());
+            println!("{}", item.get_art());
+        }
+
+        println!("{}", menu::pick_up_items());
+    }
+
+    fn handle_not_moving_options(input: &str, space_type: &SpaceType, player: &mut Player) -> bool {
+        match input.trim() {
+            constants::CHOICE_0 => {
+                let space = space_type.get_space();
+
+                if space.has_items() {
+                    // bool gotAll = true;
+                    // for (int i = 0; i < 5; i++)
+                }
+                true
+            }
+            constants::CHOICE_5 => {
+                player.handle_player_torch();
+                true
+            }
+            constants::CHOICE_I => {
+                // TODO if (player->has_items())
+                // print player inventory
+                true
+            }
+            constants::CHOICE_D => {
+                // TODO drop player item
+                true
+            }
+            constants::CHOICE_Q => return false,
+            _ => return false,
+        }
+    }
+
+    pub fn handle_move_to_room(input: &str, player: &mut Player) -> bool {
+        let map = Map::new();
+        let mut is_moving_to_room = true;
+
+        // .trim() is necessary! see #1 at bottom
+        let space_type = match input.trim() {
+            constants::CHOICE_1 => map.get_space(0),
+            constants::CHOICE_2 => map.get_space(1),
+            constants::CHOICE_3 => map.get_space(2),
+            constants::CHOICE_4 => map.get_space(3),
+            _ => {
+                is_moving_to_room = false;
+                map.get_space(0)
+            }
+        };
+
+        if !is_moving_to_room {
+            Space::handle_not_moving_options(input, space_type, player);
+        }
+
+        let room_name = space_type.get_room_name();
+        player.set_current_room(&room_name);
 
         true
     }
@@ -195,3 +254,5 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
 
     exit_options
 }
+
+// #1: http://danielnill.com/rust_tip_compairing_strings
