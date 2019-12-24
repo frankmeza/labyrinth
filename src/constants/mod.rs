@@ -24,3 +24,6 @@ pub const CHOICE_Q: &str = "q";
 pub const ENTER: &str = "entering game";
 pub const QUIT: &str = "quitting game";
 pub const INVALID: &str = "invalid";
+
+// OTHER VALUES
+pub const MAX_NUMBER_ITEMS: usize = 5;
