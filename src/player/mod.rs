@@ -21,6 +21,14 @@ impl Player {
         }
     }
 
+    pub fn set_torch_lit(&mut self, is_lit: bool) {
+        *self = Self {
+            torch_lit: is_lit,
+            inventory: self.inventory.clone(),
+            current_room: String::from(&self.current_room),
+        };
+    }
+
     pub fn set_current_room(&mut self, room_name: &str) {
         *self = Player {
             current_room: String::from(room_name),
@@ -50,5 +58,11 @@ impl Player {
     pub fn handle_player_has_items() {
         println!("{}", menu::view_items());
         println!("{}", menu::drop_item());
+    }
+
+    pub fn handle_player_torch(&mut self) {
+        if !self.get_torch_lit() && self.has_item("matches") {
+            self.set_torch_lit(true)
+        }
     }
 }
