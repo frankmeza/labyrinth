@@ -96,10 +96,27 @@ impl Space {
         match input.trim() {
             constants::CHOICE_0 => {
                 let space = space_type.get_space();
+                let player_can_add_item = player.inventory.len() < constants::MAX_NUMBER_ITEMS;
+
+                let mut got_all_items_in_space = true;
 
                 if space.has_items() {
-                    // bool gotAll = true;
-                    // for (int i = 0; i < 5; i++)
+                    if player_can_add_item {
+                        // remove the items from space, and add them into player
+                    } else {
+                        // the player has no room for the item,
+                        // and it must remain here in this space
+                        got_all_items_in_space = false;
+                        println!("{}", story::player_cannot_pick_up_item());
+                    }
+
+                } else {
+
+                }
+
+                if got_all_items_in_space {
+                    // cout << "you picked up all the items" << endl;
+                    // gotInput = true;
                 }
                 true
             }

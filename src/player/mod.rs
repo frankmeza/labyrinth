@@ -1,4 +1,5 @@
 use crate::{ascii, constants, item::Item, menu};
+
 #[derive(Debug)]
 pub struct Player {
     pub torch_lit: bool,
