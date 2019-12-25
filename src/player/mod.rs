@@ -1,4 +1,4 @@
-use crate::{ascii, constants, item::Item, menu};
+use crate::{constants, menu};
 
 #[derive(Debug)]
 pub struct Player {
@@ -9,16 +9,12 @@ pub struct Player {
 
 impl Player {
     pub fn new() -> Self {
-        let matches = Item::new(
-            String::from("matches"),
-            String::from("box of matches"),
-            ascii::matches(),
-        );
+        let inventory = vec![String::from(constants::MATCHES)];
 
         Player {
             torch_lit: true,
             current_room: String::from(constants::STARTING_ROOM),
-            inventory: vec![matches.get_name()],
+            inventory,
         }
     }
 
@@ -36,6 +32,18 @@ impl Player {
             inventory: self.inventory.clone(),
             torch_lit: self.get_torch_lit(),
         };
+    }
+
+    pub fn pick_up_item(&mut self, item_name: &str) {
+        self.inventory.push(String::from(item_name));
+    }
+
+    pub fn drop_item(&mut self, name: &str) {
+        let found_item = self.inventory.iter().position(|i| i == name);
+        let index = found_item.unwrap(); // TODO handle better
+
+        self.inventory.remove(index);
+
     }
 
     pub fn get_torch_lit(&self) -> bool {
