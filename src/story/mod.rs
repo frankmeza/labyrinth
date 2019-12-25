@@ -43,3 +43,7 @@ pub fn cannot_relight_torch() -> String {
 pub fn player_cannot_pick_up_item() -> String {
     String::from("you don't have any more room in your inventory! you might need to leave something behind")
 }
+
+pub fn all_items_picked_up() -> String {
+    String::from("you picked up all the items")
+}
