@@ -12,7 +12,8 @@ pub use minotaur::MinotaurSpace;
 pub struct Space {
     pub description: String,
     pub exits: HashMap<usize, usize>,
-    pub items: Vec<Item>,
+    pub items: Vec<String>,
+    // pub art: String, TODO
 }
 
 pub enum SpaceType {
@@ -41,13 +42,12 @@ impl Space {
         &self.description == constants::FINAL_ROOM
     }
 
-    // empty and item will be exact duplicates
-    // self will check for is minotaur
+    // self will check for is_minotaur
     pub fn do_menu(&self, player: &mut Player) -> bool {
         let mut got_input = false;
 
-        let mut input = String::from("");
-        io::stdin().read_line(&mut input).unwrap().to_string();
+        let mut input_1 = String::from("");
+        io::stdin().read_line(&mut input_1).unwrap().to_string();
 
         while !got_input {
             if player.get_torch_lit() {
@@ -71,76 +71,105 @@ impl Space {
                 }
             }
 
-            got_input = Space::handle_move_to_room(&input, player);
+            let mut input_2 = String::from("");
+            io::stdin().read_line(&mut input_2).unwrap().to_string();
+
+            println!("input 2: {}", input_2);
+            got_input = Space::handle_menu_selection(&input_2, player);
         }
 
-        true
+        true // ever false? TODO
     }
 
     //////////////////////////
     // ASSOCIATED FUNCTIONS //
     //////////////////////////
 
-    fn handle_space_has_items(items: &Vec<Item>) {
+    fn handle_space_has_items(items: &Vec<String>) {
         println!("{}", story::items_on_ground());
+        let items_map = Item::all_items();
 
-        for item in items.iter() {
-            println!("{}", item.get_description());
-            println!("{}", item.get_art());
+        for name in items.iter() {
+            let found_item = items_map.get(name);
+
+            match found_item {
+                None => println!("computer is very virus"),
+                Some(item) => {
+                    println!("{}", item.get_description());
+                    println!("{}", item.get_art());
+                }
+            }
         }
 
         println!("{}", menu::pick_up_items());
     }
 
-    fn handle_not_moving_options(input: &str, space_type: &SpaceType, player: &mut Player) -> bool {
+    fn handle_options_within_room(
+        input: &str,
+        space_type: &SpaceType,
+        player: &mut Player,
+    ) -> bool {
+        println!("INPUT IS {}", input);
         match input.trim() {
             constants::CHOICE_0 => {
                 let space = space_type.get_space();
-                let player_can_add_item = player.inventory.len() < constants::MAX_NUMBER_ITEMS;
-
-                let mut got_all_items_in_space = true;
+                let mut all_items_picked_up = false;
 
                 if space.has_items() {
+                    let player_can_add_item = player.inventory.len() < constants::MAX_NUMBER_ITEMS;
+
                     if player_can_add_item {
-                        // remove the items from space, and add them into player
+                        // TODO
+                        // space.remove_item(item_name)
+                        // player.pick_up_item(item_name)
+                        all_items_picked_up = true;
                     } else {
                         // the player has no room for the item,
                         // and it must remain here in this space
-                        got_all_items_in_space = false;
                         println!("{}", story::player_cannot_pick_up_item());
                     }
-
                 } else {
-
                 }
 
-                if got_all_items_in_space {
-                    // cout << "you picked up all the items" << endl;
-                    // gotInput = true;
+                if all_items_picked_up {
+                    println!("{}", story::all_items_picked_up());
                 }
-                true
+
+                false
             }
             constants::CHOICE_5 => {
                 player.handle_player_torch();
-                true
+                false
             }
             constants::CHOICE_I => {
-                // TODO if (player->has_items())
-                // print player inventory
-                true
+                if player.has_items() {
+                    for item in player.inventory.iter() {
+                        println!("{}", item);
+                    }
+                }
+
+                false
             }
             constants::CHOICE_D => {
-                // TODO drop player item
-                true
+                // TODO
+                // player.drop_item(name: &str)
+                false
             }
-            constants::CHOICE_Q => return false,
-            _ => return false,
+            constants::CHOICE_Q => {
+                Game::quit();
+                false
+            }
+            _ => {
+                Game::quit();
+                false
+            }
         }
     }
 
-    pub fn handle_move_to_room(input: &str, player: &mut Player) -> bool {
+    pub fn handle_menu_selection(input: &str, player: &mut Player) -> bool {
         let map = Map::new();
         let mut is_moving_to_room = true;
+        let mut has_selected = true;
 
         // .trim() is necessary! see #1 at bottom
         let space_type = match input.trim() {
@@ -155,13 +184,14 @@ impl Space {
         };
 
         if !is_moving_to_room {
-            Space::handle_not_moving_options(input, space_type, player);
+            has_selected = Space::handle_options_within_room(input, space_type, player);
         }
 
         let room_name = space_type.get_room_name();
         player.set_current_room(&room_name);
+        map.handle_arrive_in_room(space_type, player);
 
-        true
+        has_selected
     }
 }
 
@@ -191,8 +221,8 @@ impl SpaceType {
     }
 }
 
-pub fn exits(description: &str) -> HashMap<usize, usize> {
-    match description {
+pub fn exits(room_name: &str) -> HashMap<usize, usize> {
+    match room_name {
         constants::STARTING_ROOM => {
             let mut e = HashMap::new();
             e.insert(0, 1);
@@ -271,5 +301,9 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
 
     exit_options
 }
+
+// pub fn get_art(room_name: &str) -> String {
+
+// }
 
 // #1: http://danielnill.com/rust_tip_compairing_strings

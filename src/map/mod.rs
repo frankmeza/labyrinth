@@ -46,6 +46,9 @@ impl Map {
 
     pub fn handle_arrive_in_room(&self, room: &SpaceType, player: &mut Player) {
         let space = room.get_space();
+        // TODO print space room ascii art
+
+        println!("SPACE IS {}", space.description);
         space.do_menu(player);
         // call do menu in here on room
         // check if room and or player has items and all that
