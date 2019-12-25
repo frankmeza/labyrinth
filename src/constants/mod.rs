@@ -8,6 +8,18 @@ pub const ROOM_5: &str = "Room 5";
 pub const ROOM_6: &str = "Room 6";
 pub const FINAL_ROOM: &str = "Final Room";
 
+// ITEMS
+pub const MATCHES: &str = "matches";
+pub const MATCHES_DESC: &str = "box of matches";
+pub const ARROWS: &str = "arrows";
+pub const ARROWS_DESC: &str = "a bundle of arrows";
+pub const SHIELD: &str = "shield";
+pub const SHIELD_DESC: &str = "old rusty shield";
+pub const HEALTH_POTION: &str = "potion";
+pub const HEALTH_POTION_DESC: &str = "botlle of health potion";
+pub const BOW: &str = "bow";
+pub const BOW_DESC: &str = "wooden longbow";
+
 // CHOICES
 pub const CHOICE_0: &str = "0";
 pub const CHOICE_1: &str = "1";
