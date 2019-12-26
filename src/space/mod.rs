@@ -44,20 +44,25 @@ impl Space {
         String::from(&self.art)
     }
 
+    pub fn get_description(&self) -> String {
+        String::from(&self.description)
+    }
+
     fn is_minotaur_space(&self) -> bool {
         &self.description == constants::FINAL_ROOM
     }
 
     // self will check for is_minotaur
-    pub fn do_menu(&self, player: &mut Player) -> bool {
+    pub fn do_menu(&self, player: &mut Player) {
         let mut got_input = false;
-
-        let mut input_1 = String::from("");
-        io::stdin().read_line(&mut input_1).unwrap().to_string();
+        let mut did_print_torch = true;
 
         while !got_input {
             if player.get_torch_lit() {
-                println!("{}", ascii::lit_torch());
+                if !did_print_torch {
+                    println!("{}", ascii::lit_torch());
+                    did_print_torch = false;
+                }
 
                 if self.has_items() {
                     Space::handle_space_has_items(&self.items);
@@ -79,12 +84,10 @@ impl Space {
 
             let mut input_2 = String::from("");
             io::stdin().read_line(&mut input_2).unwrap().to_string();
+            println!("after input 2: {}", input_2);
 
-            println!("input 2: {}", input_2);
             got_input = Space::handle_menu_selection(&input_2, player);
         }
-
-        true // ever false? TODO
     }
 
     //////////////////////////
@@ -210,14 +213,6 @@ impl SpaceType {
         }
     }
 
-    pub fn get_space_exits(&self) -> &HashMap<usize, usize> {
-        match self {
-            SpaceType::Empty(e) => &e.space.exits,
-            SpaceType::Item(i) => &i.space.exits,
-            SpaceType::Minotaur(m) => &m.space.exits,
-        }
-    }
-
     pub fn get_room_name(&self) -> String {
         match self {
             SpaceType::Empty(e) => String::from(&e.space.description),
@@ -315,18 +310,12 @@ pub fn get_art(room_name: &str) -> String {
             ascii::left_forward_right_room()
         }
         // 1, 5 print_forward_right_room
-        constants::ROOM_1 | constants::ROOM_5 => {
-            ascii::forward_right_room()
-        }
+        constants::ROOM_1 | constants::ROOM_5 => ascii::forward_right_room(),
         // 3, 6 print_left_forward_room
-        constants::ROOM_3 | constants::ROOM_6 => {
-            ascii::left_forward_room()
-        }
+        constants::ROOM_3 | constants::ROOM_6 => ascii::left_forward_room(),
         // 7 print_left_right_room
-        constants::FINAL_ROOM => {
-            ascii::left_right_room()
-        }
-        _ => String::from("very virus")
+        constants::FINAL_ROOM => ascii::left_right_room(),
+        _ => String::from("very virus"),
     }
 }
 
