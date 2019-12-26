@@ -33,22 +33,15 @@ impl Map {
 
     pub fn enter_labyrinth(&self, player: &mut Player) {
         let starting_room = self.get_space(0);
-        let exits = starting_room.get_space_exits();
-
-        println!("{}", ascii::left_forward_right_room());
-        println!("{}\n\n", &starting_room.get_room_name());
-
-        println!("{}\n", ascii::lit_torch());
-        println!("{}", space::get_exit_options(exits));
-
         Map::handle_arrive_in_room(&self, &starting_room, player);
     }
 
     pub fn handle_arrive_in_room(&self, room: &SpaceType, player: &mut Player) {
         let space = room.get_space();
 
-        println!("SPACE IS {}", space.description);
-        println!("{}", &space.get_art());
+        println!("{}\n", &space.get_art());
+        println!("{}\n", &space.get_description());
+        println!("{}", space::get_exit_options(&space.exits));
 
         space.do_menu(player);
     }
