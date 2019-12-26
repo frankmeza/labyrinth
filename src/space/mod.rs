@@ -13,7 +13,7 @@ pub struct Space {
     pub description: String,
     pub exits: HashMap<usize, usize>,
     pub items: Vec<String>,
-    // pub art: String, TODO
+    pub art: String,
 }
 
 pub enum SpaceType {
@@ -24,18 +24,24 @@ pub enum SpaceType {
 
 impl Space {
     fn new(description: String) -> Self {
-        let exits = self::exits(&description);
+        let exits = exits(&description);
+        let art = get_art(&description);
         let items = vec![];
 
         Space {
             description,
             exits,
             items,
+            art,
         }
     }
 
     pub fn has_items(&self) -> bool {
         self.items.len() > 0
+    }
+
+    pub fn get_art(&self) -> String {
+        String::from(&self.art)
     }
 
     fn is_minotaur_space(&self) -> bool {
@@ -302,8 +308,26 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
     exit_options
 }
 
-// pub fn get_art(room_name: &str) -> String {
-
-// }
+pub fn get_art(room_name: &str) -> String {
+    match room_name.trim() {
+        // 0, 2, 4 print_left_forward_right_room
+        constants::STARTING_ROOM | constants::ROOM_2 | constants::ROOM_4 => {
+            ascii::left_forward_right_room()
+        }
+        // 1, 5 print_forward_right_room
+        constants::ROOM_1 | constants::ROOM_5 => {
+            ascii::forward_right_room()
+        }
+        // 3, 6 print_left_forward_room
+        constants::ROOM_3 | constants::ROOM_6 => {
+            ascii::left_forward_room()
+        }
+        // 7 print_left_right_room
+        constants::FINAL_ROOM => {
+            ascii::left_right_room()
+        }
+        _ => String::from("very virus")
+    }
+}
 
 // #1: http://danielnill.com/rust_tip_compairing_strings
