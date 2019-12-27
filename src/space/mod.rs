@@ -225,61 +225,61 @@ impl SpaceType {
 pub fn exits(room_name: &str) -> HashMap<usize, usize> {
     match room_name {
         constants::STARTING_ROOM => {
-            let mut e = HashMap::new();
-            e.insert(0, 1);
-            e.insert(1, 2);
-            e.insert(2, 4);
-            e.insert(3, 5);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(0, 1);
+            exits.insert(1, 2);
+            exits.insert(2, 4);
+            exits.insert(3, 5);
+            exits
         }
         constants::ROOM_1 => {
-            let mut e = HashMap::new();
-            e.insert(1, 3);
-            e.insert(2, 0);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(1, 3);
+            exits.insert(2, 0);
+            exits
         }
         constants::ROOM_2 => {
-            let mut e = HashMap::new();
-            e.insert(0, 3);
-            e.insert(2, 6);
-            e.insert(3, 0);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(0, 3);
+            exits.insert(2, 6);
+            exits.insert(3, 0);
+            exits
         }
         constants::ROOM_3 => {
-            let mut e = HashMap::new();
-            e.insert(2, 3);
-            e.insert(3, 1);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(2, 3);
+            exits.insert(3, 1);
+            exits
         }
         constants::ROOM_4 => {
-            let mut e = HashMap::new();
-            e.insert(0, 0);
-            e.insert(1, 6);
-            e.insert(3, 7);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(0, 0);
+            exits.insert(1, 6);
+            exits.insert(3, 7);
+            exits
         }
         constants::ROOM_5 => {
-            let mut e = HashMap::new();
-            e.insert(1, 0);
-            e.insert(2, 7);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(1, 0);
+            exits.insert(2, 7);
+            exits
         }
         constants::ROOM_6 => {
-            let mut e = HashMap::new();
-            e.insert(0, 2);
-            e.insert(3, 4);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(0, 2);
+            exits.insert(3, 4);
+            exits
         }
         constants::FINAL_ROOM => {
-            let mut e = HashMap::new();
-            e.insert(0, 5);
-            e.insert(1, 4);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(0, 5);
+            exits.insert(1, 4);
+            exits
         }
         _ => {
-            let mut e = HashMap::new();
-            e.insert(0, 0);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(0, 0);
+            exits
         }
     }
 }
