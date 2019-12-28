@@ -1,4 +1,4 @@
-use crate::{constants, menu};
+use crate::{constants as c, menu};
 
 #[derive(Debug)]
 pub struct Player {
@@ -9,11 +9,11 @@ pub struct Player {
 
 impl Player {
     pub fn new() -> Self {
-        let inventory = vec![String::from(constants::MATCHES)];
+        let inventory = vec![String::from(c::MATCHES)];
 
         Player {
             torch_lit: true,
-            current_room: String::from(constants::STARTING_ROOM),
+            current_room: String::from(c::STARTING_ROOM),
             inventory,
         }
     }

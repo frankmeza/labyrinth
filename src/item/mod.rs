@@ -1,4 +1,4 @@
-use crate::{ascii, constants};
+use crate::{ascii, constants as c};
 use std::collections::HashMap;
 
 #[derive(Debug)]
@@ -33,51 +33,50 @@ impl Item {
         let mut items = HashMap::new();
 
         items.insert(
-            String::from(constants::MATCHES),
+            String::from(c::MATCHES),
             Item::new(
-                String::from(constants::MATCHES),
-                String::from(constants::MATCHES_DESC),
+                String::from(c::MATCHES),
+                String::from(c::MATCHES_DESC),
                 ascii::matches(),
             ),
         );
 
         items.insert(
-            String::from(constants::ARROWS),
+            String::from(c::ARROWS),
             Item::new(
-                String::from(constants::ARROWS),
-                String::from(constants::ARROWS_DESC),
+                String::from(c::ARROWS),
+                String::from(c::ARROWS_DESC),
                 ascii::arrows(),
             ),
         );
 
         items.insert(
-            String::from(constants::BOW),
+            String::from(c::BOW),
             Item::new(
-                String::from(constants::BOW),
-                String::from(constants::BOW_DESC),
+                String::from(c::BOW),
+                String::from(c::BOW_DESC),
                 ascii::bow(),
             ),
         );
 
         items.insert(
-            String::from(constants::SHIELD),
+            String::from(c::SHIELD),
             Item::new(
-                String::from(constants::SHIELD),
-                String::from(constants::SHIELD_DESC),
+                String::from(c::SHIELD),
+                String::from(c::SHIELD_DESC),
                 ascii::shield(),
             ),
         );
 
         items.insert(
-            String::from(constants::HEALTH_POTION),
+            String::from(c::HEALTH_POTION),
             Item::new(
-                String::from(constants::HEALTH_POTION),
-                String::from(constants::HEALTH_POTION_DESC),
+                String::from(c::HEALTH_POTION),
+                String::from(c::HEALTH_POTION_DESC),
                 ascii::health_potion(),
             ),
         );
 
         items
     }
-
 }

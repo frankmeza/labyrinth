@@ -1,4 +1,4 @@
-use crate::{ascii, constants, game::Game, item::Item, map::Map, menu, player::Player, story};
+use crate::{ascii, constants as c, game::Game, item::Item, map::Map, menu, player::Player, story};
 use std::{collections::HashMap, io};
 
 mod empty;
@@ -9,6 +9,7 @@ pub use empty::EmptySpace;
 pub use item::ItemSpace;
 pub use minotaur::MinotaurSpace;
 
+#[derive(Debug)]
 pub struct Space {
     pub description: String,
     pub exits: HashMap<usize, usize>,
@@ -49,7 +50,7 @@ impl Space {
     }
 
     fn is_minotaur_space(&self) -> bool {
-        &self.description == constants::FINAL_ROOM
+        &self.description == c::FINAL_ROOM
     }
 
     // self will check for is_minotaur
@@ -120,12 +121,12 @@ impl Space {
     ) -> bool {
         println!("INPUT IS {}", input);
         match input.trim() {
-            constants::CHOICE_0 => {
+            c::CHOICE_0 => {
                 let space = space_type.get_space();
                 let mut all_items_picked_up = false;
 
                 if space.has_items() {
-                    let player_can_add_item = player.inventory.len() < constants::MAX_NUMBER_ITEMS;
+                    let player_can_add_item = player.inventory.len() < c::MAX_NUMBER_ITEMS;
 
                     if player_can_add_item {
                         // TODO
@@ -146,11 +147,11 @@ impl Space {
 
                 false
             }
-            constants::CHOICE_5 => {
+            c::CHOICE_5 => {
                 player.handle_player_torch();
                 false
             }
-            constants::CHOICE_I => {
+            c::CHOICE_I => {
                 if player.has_items() {
                     for item in player.inventory.iter() {
                         println!("{}", item);
@@ -159,12 +160,12 @@ impl Space {
 
                 false
             }
-            constants::CHOICE_D => {
+            c::CHOICE_D => {
                 // TODO
                 // player.drop_item(name: &str)
                 false
             }
-            constants::CHOICE_Q => {
+            c::CHOICE_Q => {
                 Game::quit();
                 false
             }
@@ -182,10 +183,10 @@ impl Space {
 
         // .trim() is necessary! see #1 at bottom
         let space_type = match input.trim() {
-            constants::CHOICE_1 => map.get_space(0),
-            constants::CHOICE_2 => map.get_space(1),
-            constants::CHOICE_3 => map.get_space(2),
-            constants::CHOICE_4 => map.get_space(3),
+            c::CHOICE_1 => map.get_space(0),
+            c::CHOICE_2 => map.get_space(1),
+            c::CHOICE_3 => map.get_space(2),
+            c::CHOICE_4 => map.get_space(3),
             _ => {
                 is_moving_to_room = false;
                 map.get_space(0)
@@ -224,7 +225,7 @@ impl SpaceType {
 
 pub fn exits(room_name: &str) -> HashMap<usize, usize> {
     match room_name {
-        constants::STARTING_ROOM => {
+        c::STARTING_ROOM => {
             let mut e = HashMap::new();
             e.insert(0, 1);
             e.insert(1, 2);
@@ -232,45 +233,45 @@ pub fn exits(room_name: &str) -> HashMap<usize, usize> {
             e.insert(3, 5);
             e
         }
-        constants::ROOM_1 => {
+        c::ROOM_1 => {
             let mut e = HashMap::new();
             e.insert(1, 3);
             e.insert(2, 0);
             e
         }
-        constants::ROOM_2 => {
+        c::ROOM_2 => {
             let mut e = HashMap::new();
             e.insert(0, 3);
             e.insert(2, 6);
             e.insert(3, 0);
             e
         }
-        constants::ROOM_3 => {
+        c::ROOM_3 => {
             let mut e = HashMap::new();
             e.insert(2, 3);
             e.insert(3, 1);
             e
         }
-        constants::ROOM_4 => {
+        c::ROOM_4 => {
             let mut e = HashMap::new();
             e.insert(0, 0);
             e.insert(1, 6);
             e.insert(3, 7);
             e
         }
-        constants::ROOM_5 => {
+        c::ROOM_5 => {
             let mut e = HashMap::new();
             e.insert(1, 0);
             e.insert(2, 7);
             e
         }
-        constants::ROOM_6 => {
+        c::ROOM_6 => {
             let mut e = HashMap::new();
             e.insert(0, 2);
             e.insert(3, 4);
             e
         }
-        constants::FINAL_ROOM => {
+        c::FINAL_ROOM => {
             let mut e = HashMap::new();
             e.insert(0, 5);
             e.insert(1, 4);
@@ -306,15 +307,15 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
 pub fn get_art(room_name: &str) -> String {
     match room_name.trim() {
         // 0, 2, 4 print_left_forward_right_room
-        constants::STARTING_ROOM | constants::ROOM_2 | constants::ROOM_4 => {
+        c::STARTING_ROOM | c::ROOM_2 | c::ROOM_4 => {
             ascii::left_forward_right_room()
         }
         // 1, 5 print_forward_right_room
-        constants::ROOM_1 | constants::ROOM_5 => ascii::forward_right_room(),
+        c::ROOM_1 | c::ROOM_5 => ascii::forward_right_room(),
         // 3, 6 print_left_forward_room
-        constants::ROOM_3 | constants::ROOM_6 => ascii::left_forward_room(),
+        c::ROOM_3 | c::ROOM_6 => ascii::left_forward_room(),
         // 7 print_left_right_room
-        constants::FINAL_ROOM => ascii::left_right_room(),
+        c::FINAL_ROOM => ascii::left_right_room(),
         _ => String::from("very virus"),
     }
 }
