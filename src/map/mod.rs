@@ -1,5 +1,5 @@
 use crate::{
-    ascii, constants,
+    constants,
     player::Player,
     space::{self, EmptySpace, ItemSpace, MinotaurSpace, SpaceType},
 };
