@@ -85,7 +85,6 @@ impl Space {
 
             let mut input_2 = String::from("");
             io::stdin().read_line(&mut input_2).unwrap().to_string();
-            println!("after input 2: {}", input_2);
 
             got_input = Space::handle_menu_selection(&input_2, player);
         }
@@ -103,7 +102,7 @@ impl Space {
             let found_item = items_map.get(name);
 
             match found_item {
-                None => println!("computer is very virus"),
+                None => println!("handle_space_has_items is very virus"),
                 Some(item) => {
                     println!("{}", item.get_description());
                     println!("{}", item.get_art());
