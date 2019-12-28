@@ -1,5 +1,6 @@
 use crate::space::Space;
 
+#[derive(Debug)]
 pub struct ItemSpace {
     pub space: Space,
 }
