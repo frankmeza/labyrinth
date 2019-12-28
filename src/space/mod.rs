@@ -180,12 +180,12 @@ impl Space {
         }
     }
 
-    // helper fn, acts as a closure in
+    // helper fn, acts as a closure in handle_menu_selection()
     fn get_space_by_index(index: usize, map: &Map, exits_map: HashMap<usize, usize>) -> &SpaceType {
         let found_index = exits_map.get(&index);
         match found_index {
             None => {
-                println!("Back to start...Sisyphus felt the same way");
+                println!("COMPUTER IS VERY VIRUS");
                 map.get_space(0)
             }
             Some(index) => map.get_space(*index),
@@ -198,7 +198,6 @@ impl Space {
         let mut has_selected = true;
 
         let exits_map = exits(&self.get_description());
-
 
         // .trim() is necessary! see #1 at bottom
         let space_type = match input.trim() {
@@ -314,14 +313,19 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
     }
 
     exits.sort();
-    println!("EXITS ARE: {:?}", &exits);
 
     for e in 0..exits.len() {
-        println!("AND MORE E IS: {:?}", &e);
-        // this sends the index, instead of the exit_to room number
-        let option = menu::get_exit_options(&e);
-        exit_options.push_str(&option);
-        exit_options.push_str("\n");
+        let found_exit = exits.get(e);
+
+        match found_exit {
+            None => exit_options.push_str("MENU IS VERY VIRUS"),
+            Some(exit) => {
+                let option = menu::get_exit_options(&exit);
+
+                exit_options.push_str(&option);
+                exit_options.push_str("\n");
+            }
+        }
     }
 
     exit_options
@@ -329,15 +333,15 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
 
 pub fn get_art(room_name: &str) -> String {
     match room_name.trim() {
-        // 0, 2, 4 print_left_forward_right_room
+        // index 0, 2, 4
         constants::STARTING_ROOM | constants::ROOM_2 | constants::ROOM_4 => {
             ascii::left_forward_right_room()
         }
-        // 1, 5 print_forward_right_room
+        // index 1, 5
         constants::ROOM_1 | constants::ROOM_5 => ascii::forward_right_room(),
-        // 3, 6 print_left_forward_room
+        // index 3, 6
         constants::ROOM_3 | constants::ROOM_6 => ascii::left_forward_room(),
-        // 7 print_left_right_room
+        // index 7
         constants::FINAL_ROOM => ascii::left_right_room(),
         _ => String::from("very virus"),
     }
