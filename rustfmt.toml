@@ -1,0 +1,7 @@
+# from https://github.com/rust-lang/rustfmt/blob/master/Configurations.md#configuring-rustfmt
+edition = "2018"
+
+max_width = 100
+use_field_init_shorthand = true
+use_try_shorthand = true
+wrap_comments = true

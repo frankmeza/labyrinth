@@ -43,7 +43,6 @@ impl Player {
         let index = found_item.unwrap(); // TODO handle better
 
         self.inventory.remove(index);
-
     }
 
     pub fn get_torch_lit(&self) -> bool {

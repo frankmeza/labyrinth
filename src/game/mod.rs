@@ -1,4 +1,4 @@
-use crate::{ascii, story, map::Map, player::Player};
+use crate::{ascii, map::Map, player::Player, story};
 use std::process;
 
 pub struct Game {}

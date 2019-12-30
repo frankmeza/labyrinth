@@ -306,16 +306,14 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
 pub fn get_art(room_name: &str) -> String {
     match room_name.trim() {
         // 0, 2, 4 print_left_forward_right_room
-        c::STARTING_ROOM | c::ROOM_2 | c::ROOM_4 => {
-            ascii::left_forward_right_room()
-        }
+        c::STARTING_ROOM | c::ROOM_2 | c::ROOM_4 => ascii::left_forward_right_room(),
         // 1, 5 print_forward_right_room
         c::ROOM_1 | c::ROOM_5 => ascii::forward_right_room(),
         // 3, 6 print_left_forward_room
         c::ROOM_3 | c::ROOM_6 => ascii::left_forward_room(),
         // 7 print_left_right_room
         c::FINAL_ROOM => ascii::left_right_room(),
-        _ => String::from("very virus"),
+        _ => String::from("get_art is very virus"),
     }
 }
 
