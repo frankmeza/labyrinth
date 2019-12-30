@@ -50,9 +50,9 @@ impl Space {
         String::from(&self.description)
     }
 
-    // pub fn get_exits(&self) -> &HashMap<usize, usize> {
-    //     &self.exits
-    // }
+    pub fn get_exits(&self) -> &HashMap<usize, usize> {
+        &self.exits
+    }
 
     fn is_minotaur_space(&self) -> bool {
         &self.description == c::FINAL_ROOM
@@ -132,6 +132,8 @@ impl Space {
                     let player_can_add_item = player.inventory.len() < c::MAX_NUMBER_ITEMS;
 
                     if player_can_add_item {
+                        // TODO ASK - more than one item per room?
+                        println!("{}", get_exit_options(space.get_exits()));
                         // TODO
                         // space.remove_item(item_name)
                         // player.pick_up_item(item_name)
@@ -142,6 +144,7 @@ impl Space {
                         println!("{}", story::player_cannot_pick_up_item());
                     }
                 } else {
+                    // TODO
                 }
 
                 if all_items_picked_up {
@@ -182,6 +185,7 @@ impl Space {
     // helper fn, acts as a closure in handle_menu_selection()
     fn get_space_by_index(index: usize, map: &Map, exits_map: HashMap<usize, usize>) -> &SpaceType {
         let found_index = exits_map.get(&index);
+
         match found_index {
             None => {
                 println!("COMPUTER IS VERY VIRUS");
@@ -317,7 +321,7 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
         let found_exit = exits.get(e);
 
         match found_exit {
-            None => exit_options.push_str("MENU IS VERY VIRUS"),
+            None => exit_options.push_str("Space::get_exit_options very virus"),
             Some(exit) => {
                 let option = menu::get_exit_options(&exit);
 
@@ -340,7 +344,7 @@ pub fn get_art(room_name: &str) -> String {
         c::ROOM_3 | c::ROOM_6 => ascii::left_forward_room(),
         // 7 print_left_right_room
         c::FINAL_ROOM => ascii::left_right_room(),
-        _ => String::from("get_art is very virus"),
+        _ => String::from("Space::get_art is very virus"),
     }
 }
 
