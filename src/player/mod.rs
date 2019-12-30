@@ -33,6 +33,13 @@ impl Player {
             torch_lit: self.get_torch_lit(),
         };
     }
+    // THIS IS COOL
+    // pub fn set_current_room(self, room_name: &str) -> Self {
+    //     Self {
+    //         current_room: String::from(room_name),
+    //         ..self
+    //     }
+    // }
 
     pub fn pick_up_item(&mut self, item_name: &str) {
         self.inventory.push(String::from(item_name));
