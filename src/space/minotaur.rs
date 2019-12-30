@@ -1,5 +1,6 @@
 use crate::space::Space;
 
+#[derive(Debug)]
 pub struct MinotaurSpace {
     pub space: Space,
 }

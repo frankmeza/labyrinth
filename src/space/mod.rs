@@ -17,6 +17,7 @@ pub struct Space {
     pub art: String,
 }
 
+#[derive(Debug)]
 pub enum SpaceType {
     Empty(EmptySpace),
     Item(ItemSpace),
@@ -48,6 +49,10 @@ impl Space {
     pub fn get_description(&self) -> String {
         String::from(&self.description)
     }
+
+    // pub fn get_exits(&self) -> &HashMap<usize, usize> {
+    //     &self.exits
+    // }
 
     fn is_minotaur_space(&self) -> bool {
         &self.description == c::FINAL_ROOM
@@ -83,10 +88,10 @@ impl Space {
                 }
             }
 
-            let mut input_2 = String::from("");
-            io::stdin().read_line(&mut input_2).unwrap().to_string();
+            let mut input = String::from("");
+            io::stdin().read_line(&mut input).unwrap().to_string();
 
-            got_input = Space::handle_menu_selection(&input_2, player);
+            got_input = Space::handle_menu_selection(&self, &input, player);
         }
     }
 
@@ -118,7 +123,6 @@ impl Space {
         space_type: &SpaceType,
         player: &mut Player,
     ) -> bool {
-        println!("INPUT IS {}", input);
         match input.trim() {
             c::CHOICE_0 => {
                 let space = space_type.get_space();
@@ -175,20 +179,34 @@ impl Space {
         }
     }
 
-    pub fn handle_menu_selection(input: &str, player: &mut Player) -> bool {
+    // helper fn, acts as a closure in handle_menu_selection()
+    fn get_space_by_index(index: usize, map: &Map, exits_map: HashMap<usize, usize>) -> &SpaceType {
+        let found_index = exits_map.get(&index);
+        match found_index {
+            None => {
+                println!("COMPUTER IS VERY VIRUS");
+                map.get_space(0)
+            }
+            Some(index) => map.get_space(*index),
+        }
+    }
+
+    pub fn handle_menu_selection(&self, input: &str, player: &mut Player) -> bool {
         let map = Map::new();
         let mut is_moving_to_room = true;
         let mut has_selected = true;
 
+        let exits_map = exits(&self.get_description());
+
         // .trim() is necessary! see #1 at bottom
         let space_type = match input.trim() {
-            c::CHOICE_1 => map.get_space(0),
-            c::CHOICE_2 => map.get_space(1),
-            c::CHOICE_3 => map.get_space(2),
-            c::CHOICE_4 => map.get_space(3),
+            c::CHOICE_1 => Space::get_space_by_index(0, &map, exits_map),
+            c::CHOICE_2 => Space::get_space_by_index(1, &map, exits_map),
+            c::CHOICE_3 => Space::get_space_by_index(2, &map, exits_map),
+            c::CHOICE_4 => Space::get_space_by_index(3, &map, exits_map),
             _ => {
                 is_moving_to_room = false;
-                map.get_space(0)
+                Space::get_space_by_index(0, &map, exits_map)
             }
         };
 
@@ -196,7 +214,8 @@ impl Space {
             has_selected = Space::handle_options_within_room(input, space_type, player);
         }
 
-        let room_name = space_type.get_room_name();
+        let room_name = self.get_description();
+
         player.set_current_room(&room_name);
         map.handle_arrive_in_room(space_type, player);
 
@@ -277,9 +296,9 @@ pub fn exits(room_name: &str) -> HashMap<usize, usize> {
             e
         }
         _ => {
-            let mut e = HashMap::new();
-            e.insert(0, 0);
-            e
+            let mut exits = HashMap::new();
+            exits.insert(0, 0);
+            exits
         }
     }
 }
@@ -295,9 +314,17 @@ pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
     exits.sort();
 
     for e in 0..exits.len() {
-        let option = menu::get_exit_options(&e);
-        exit_options.push_str(&option);
-        exit_options.push_str("\n");
+        let found_exit = exits.get(e);
+
+        match found_exit {
+            None => exit_options.push_str("MENU IS VERY VIRUS"),
+            Some(exit) => {
+                let option = menu::get_exit_options(&exit);
+
+                exit_options.push_str(&option);
+                exit_options.push_str("\n");
+            }
+        }
     }
 
     exit_options
