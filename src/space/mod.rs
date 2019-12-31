@@ -270,7 +270,7 @@ pub fn exits(room_name: &str) -> HashMap<usize, usize> {
         }
         c::ROOM_3 => {
             let mut e = HashMap::new();
-            e.insert(2, 3);
+            e.insert(2, 2);
             e.insert(3, 1);
             e
         }
