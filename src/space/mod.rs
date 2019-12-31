@@ -26,9 +26,9 @@ pub enum SpaceType {
 
 impl Space {
     fn new(description: String) -> Self {
-        let exits = exits(&description);
+        let exits = get_exits(&description);
         let art = get_art(&description);
-        let items = vec![];
+        let items = get_items(&description);
 
         Space {
             description,
@@ -200,7 +200,7 @@ impl Space {
         let mut is_moving_to_room = true;
         let mut has_selected = true;
 
-        let exits_map = exits(&self.get_description());
+        let exits_map = get_exits(&self.get_description());
 
         // .trim() is necessary! see #1 at bottom
         let space_type = match input.trim() {
@@ -245,7 +245,7 @@ impl SpaceType {
     }
 }
 
-pub fn exits(room_name: &str) -> HashMap<usize, usize> {
+pub fn get_exits(room_name: &str) -> HashMap<usize, usize> {
     match room_name {
         c::STARTING_ROOM => {
             let mut e = HashMap::new();
@@ -304,6 +304,16 @@ pub fn exits(room_name: &str) -> HashMap<usize, usize> {
             exits.insert(0, 0);
             exits
         }
+    }
+}
+
+pub fn get_items(room_name: &str) -> Vec<String> {
+    match room_name {
+        c::ROOM_1 => vec![String::from(c::MATCHES)],
+        c::ROOM_3 => vec![String::from(c::SHIELD)],
+        c::ROOM_4 => vec![String::from(c::HEALTH_POTION)],
+        c::ROOM_6 => vec![String::from(c::BOW)],
+        _ => vec![]
     }
 }
 
