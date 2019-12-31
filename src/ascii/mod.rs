@@ -94,7 +94,6 @@ pub fn lit_torch() -> String {
         "   ||",
         "   ||",
         "   ||",
-        "   ||",
     ]
     .join("\n")
 }

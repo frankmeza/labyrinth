@@ -1,5 +1,5 @@
 use crate::{
-    constants as c,
+    ascii, constants as c,
     player::Player,
     space::{self, EmptySpace, ItemSpace, MinotaurSpace, SpaceType},
 };
@@ -39,8 +39,9 @@ impl Map {
     pub fn handle_arrive_in_room(&self, room: &SpaceType, player: &mut Player) {
         let space = room.get_space();
 
-        println!("{}\n", &space.get_art());
-        println!("{}\n", &space.get_description());
+        println!("{}", &space.get_art());
+        println!("{}\n\n", &space.get_description());
+        println!("{}\n", ascii::lit_torch());
         println!("{}", space::get_exit_options(&space.exits));
 
         space.do_menu(player);
