@@ -1,4 +1,4 @@
-use crate::{constants as c, menu};
+use crate::constants as c;
 
 #[derive(Debug)]
 pub struct Player {
@@ -18,6 +18,28 @@ impl Player {
         }
     }
 
+    // GETTERS //
+
+    pub fn has_items(&self) -> bool {
+        self.inventory.len() > 0
+    }
+
+    pub fn has_item(&self, item_name: &str) -> bool {
+        let mut iter = self.inventory.iter();
+        let has_item = &iter.find(|&item| item == item_name);
+
+        match has_item {
+            None => false,
+            Some(_item) => true,
+        }
+    }
+
+    pub fn get_torch_lit(&self) -> bool {
+        self.torch_lit
+    }
+
+    // SETTERS //
+
     pub fn set_torch_lit(&mut self, is_lit: bool) {
         *self = Self {
             torch_lit: is_lit,
@@ -34,7 +56,7 @@ impl Player {
         };
     }
 
-    pub fn pick_up_item(&mut self, item_name: &str) {
+    pub fn add_item(&mut self, item_name: &str) {
         self.inventory.push(String::from(item_name));
     }
 
@@ -43,29 +65,6 @@ impl Player {
         let index = found_item.unwrap(); // TODO handle better
 
         self.inventory.remove(index);
-    }
-
-    pub fn get_torch_lit(&self) -> bool {
-        self.torch_lit
-    }
-
-    pub fn has_items(&self) -> bool {
-        self.inventory.len() > 0
-    }
-
-    pub fn has_item(&self, item_name: &str) -> bool {
-        let mut iter = self.inventory.iter();
-        let has_item = &iter.find(|&item| item == item_name);
-
-        match has_item {
-            None => false,
-            Some(_item) => true,
-        }
-    }
-
-    pub fn handle_player_has_items() {
-        println!("{}", menu::view_items());
-        println!("{}", menu::drop_item());
     }
 
     pub fn handle_player_torch(&mut self) {

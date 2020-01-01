@@ -8,22 +8,9 @@ pub struct Map {
     pub spaces: Vec<SpaceType>,
 }
 
-fn generate_spaces() -> Vec<SpaceType> {
-    vec![
-        SpaceType::Empty(EmptySpace::new(String::from(c::STARTING_ROOM))),
-        SpaceType::Item(ItemSpace::new(String::from(c::ROOM_1))),
-        SpaceType::Empty(EmptySpace::new(String::from(c::ROOM_2))),
-        SpaceType::Item(ItemSpace::new(String::from(c::ROOM_3))),
-        SpaceType::Item(ItemSpace::new(String::from(c::ROOM_4))),
-        SpaceType::Empty(EmptySpace::new(String::from(c::ROOM_5))),
-        SpaceType::Item(ItemSpace::new(String::from(c::ROOM_6))),
-        SpaceType::Minotaur(MinotaurSpace::new(String::from(c::FINAL_ROOM))),
-    ]
-}
-
 impl Map {
     pub fn new() -> Self {
-        let spaces = generate_spaces();
+        let spaces = Map::generate_map_spaces();
         Map { spaces }
     }
 
@@ -45,5 +32,18 @@ impl Map {
         println!("{}", space::get_exit_options(&space.exits));
 
         space.do_menu(player);
+    }
+
+    fn generate_map_spaces() -> Vec<SpaceType> {
+        vec![
+            SpaceType::Empty(EmptySpace::new(String::from(c::STARTING_ROOM))),
+            SpaceType::Item(ItemSpace::new(String::from(c::ROOM_1))),
+            SpaceType::Empty(EmptySpace::new(String::from(c::ROOM_2))),
+            SpaceType::Item(ItemSpace::new(String::from(c::ROOM_3))),
+            SpaceType::Item(ItemSpace::new(String::from(c::ROOM_4))),
+            SpaceType::Empty(EmptySpace::new(String::from(c::ROOM_5))),
+            SpaceType::Item(ItemSpace::new(String::from(c::ROOM_6))),
+            SpaceType::Minotaur(MinotaurSpace::new(String::from(c::FINAL_ROOM))),
+        ]
     }
 }

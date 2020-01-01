@@ -17,6 +17,8 @@ impl Item {
         }
     }
 
+    // GETTERS //
+
     pub fn get_name(&self) -> String {
         String::from(&self.name)
     }
@@ -28,6 +30,8 @@ impl Item {
     pub fn get_art(&self) -> String {
         String::from(&self.art)
     }
+
+    // GENERATE ITEM REPO //
 
     pub fn all_items() -> HashMap<String, Item> {
         let mut items = HashMap::new();

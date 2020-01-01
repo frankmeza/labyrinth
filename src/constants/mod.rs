@@ -1,4 +1,5 @@
-// ROOMS
+// ROOMS //
+
 pub const STARTING_ROOM: &str = "Starting Room";
 pub const ROOM_1: &str = "Room 1";
 pub const ROOM_2: &str = "Room 2";
@@ -8,7 +9,8 @@ pub const ROOM_5: &str = "Room 5";
 pub const ROOM_6: &str = "Room 6";
 pub const FINAL_ROOM: &str = "Final Room";
 
-// ITEMS
+// ITEMS //
+
 pub const MATCHES: &str = "matches";
 pub const MATCHES_DESC: &str = "box of matches";
 pub const ARROWS: &str = "arrows";
@@ -20,7 +22,8 @@ pub const HEALTH_POTION_DESC: &str = "botlle of health potion";
 pub const BOW: &str = "bow";
 pub const BOW_DESC: &str = "wooden longbow";
 
-// CHOICES
+// CHOICES //
+
 pub const CHOICE_0: &str = "0";
 pub const CHOICE_1: &str = "1";
 pub const CHOICE_2: &str = "2";
@@ -32,10 +35,12 @@ pub const CHOICE_I: &str = "i";
 pub const CHOICE_D: &str = "d";
 pub const CHOICE_Q: &str = "q";
 
-// MENU
+// MENU //
+
 pub const ENTER: &str = "entering game";
 pub const QUIT: &str = "quitting game";
 pub const INVALID: &str = "invalid";
 
-// OTHER VALUES
+// OTHER VALUES //
+
 pub const MAX_NUMBER_ITEMS: usize = 5;
