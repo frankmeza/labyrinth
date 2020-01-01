@@ -30,7 +30,7 @@ impl Space {
     fn new(description: String) -> Self {
         let exits = get_exits(&description);
         let art = get_art(&description);
-        let items = populate_items(&description);
+        let items = get_items(&description);
 
         Space {
             description,
@@ -239,118 +239,118 @@ impl SpaceType {
             SpaceType::Minotaur(m) => String::from(&m.space.description),
         }
     }
+}
 
-    pub fn get_exits(room_name: &str) -> HashMap<usize, usize> {
-        match room_name {
-            c::STARTING_ROOM => {
-                let mut e = HashMap::new();
-                e.insert(0, 1);
-                e.insert(1, 2);
-                e.insert(2, 4);
-                e.insert(3, 5);
-                e
-            }
-            c::ROOM_1 => {
-                let mut e = HashMap::new();
-                e.insert(1, 3);
-                e.insert(2, 0);
-                e
-            }
-            c::ROOM_2 => {
-                let mut e = HashMap::new();
-                e.insert(0, 3);
-                e.insert(2, 6);
-                e.insert(3, 0);
-                e
-            }
-            c::ROOM_3 => {
-                let mut e = HashMap::new();
-                e.insert(2, 2);
-                e.insert(3, 1);
-                e
-            }
-            c::ROOM_4 => {
-                let mut e = HashMap::new();
-                e.insert(0, 0);
-                e.insert(1, 6);
-                e.insert(3, 7);
-                e
-            }
-            c::ROOM_5 => {
-                let mut e = HashMap::new();
-                e.insert(1, 0);
-                e.insert(2, 7);
-                e
-            }
-            c::ROOM_6 => {
-                let mut e = HashMap::new();
-                e.insert(0, 2);
-                e.insert(3, 4);
-                e
-            }
-            c::FINAL_ROOM => {
-                let mut e = HashMap::new();
-                e.insert(0, 5);
-                e.insert(1, 4);
-                e
-            }
-            _ => {
-                let mut exits = HashMap::new();
-                exits.insert(0, 0);
-                exits
+pub fn get_exits(room_name: &str) -> HashMap<usize, usize> {
+    match room_name {
+        c::STARTING_ROOM => {
+            let mut e = HashMap::new();
+            e.insert(0, 1);
+            e.insert(1, 2);
+            e.insert(2, 4);
+            e.insert(3, 5);
+            e
+        }
+        c::ROOM_1 => {
+            let mut e = HashMap::new();
+            e.insert(1, 3);
+            e.insert(2, 0);
+            e
+        }
+        c::ROOM_2 => {
+            let mut e = HashMap::new();
+            e.insert(0, 3);
+            e.insert(2, 6);
+            e.insert(3, 0);
+            e
+        }
+        c::ROOM_3 => {
+            let mut e = HashMap::new();
+            e.insert(2, 2);
+            e.insert(3, 1);
+            e
+        }
+        c::ROOM_4 => {
+            let mut e = HashMap::new();
+            e.insert(0, 0);
+            e.insert(1, 6);
+            e.insert(3, 7);
+            e
+        }
+        c::ROOM_5 => {
+            let mut e = HashMap::new();
+            e.insert(1, 0);
+            e.insert(2, 7);
+            e
+        }
+        c::ROOM_6 => {
+            let mut e = HashMap::new();
+            e.insert(0, 2);
+            e.insert(3, 4);
+            e
+        }
+        c::FINAL_ROOM => {
+            let mut e = HashMap::new();
+            e.insert(0, 5);
+            e.insert(1, 4);
+            e
+        }
+        _ => {
+            let mut exits = HashMap::new();
+            exits.insert(0, 0);
+            exits
+        }
+    }
+}
+
+pub fn get_items(room_name: &str) -> Vec<String> {
+    match room_name {
+        c::ROOM_1 => vec![String::from(c::MATCHES)],
+        c::ROOM_3 => vec![String::from(c::SHIELD)],
+        c::ROOM_4 => vec![String::from(c::HEALTH_POTION)],
+        c::ROOM_6 => vec![String::from(c::BOW)],
+        _ => vec![],
+    }
+}
+
+pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
+    let mut exit_options = String::from("");
+    let mut exits: Vec<usize> = vec![];
+
+    for (option, _room) in space_exits {
+        exits.push(*option);
+    }
+
+    exits.sort();
+
+    for e in 0..exits.len() {
+        let found_exit = exits.get(e);
+
+        match found_exit {
+            None => exit_options.push_str("Space::get_exit_options very virus"),
+            Some(exit) => {
+                let option = menu::get_exit_options(&exit);
+
+                exit_options.push_str(&option);
+                exit_options.push_str("\n");
             }
         }
     }
 
-    pub fn get_items(room_name: &str) -> Vec<String> {
-        match room_name {
-            c::ROOM_1 => vec![String::from(c::MATCHES)],
-            c::ROOM_3 => vec![String::from(c::SHIELD)],
-            c::ROOM_4 => vec![String::from(c::HEALTH_POTION)],
-            c::ROOM_6 => vec![String::from(c::BOW)],
-            _ => vec![],
-        }
-    }
+    exit_options
+}
 
-    pub fn get_exit_options(space_exits: &HashMap<usize, usize>) -> String {
-        let mut exit_options = String::from("");
-        let mut exits: Vec<usize> = vec![];
-
-        for (option, _room) in space_exits {
-            exits.push(*option);
-        }
-
-        exits.sort();
-
-        for e in 0..exits.len() {
-            let found_exit = exits.get(e);
-
-            match found_exit {
-                None => exit_options.push_str("Space::get_exit_options very virus"),
-                Some(exit) => {
-                    let option = menu::get_exit_options(&exit);
-
-                    exit_options.push_str(&option);
-                    exit_options.push_str("\n");
-                }
-            }
-        }
-
-        exit_options
-    }
-
-    pub fn get_art(room_name: &str) -> String {
-        match room_name.trim() {
-            // 0, 2, 4 print_left_forward_right_room
-            c::STARTING_ROOM | c::ROOM_2 | c::ROOM_4 => ascii::left_forward_right_room(),
-            // 1, 5 print_forward_right_room
-            c::ROOM_1 | c::ROOM_5 => ascii::forward_right_room(),
-            // 3, 6 print_left_forward_room
-            c::ROOM_3 | c::ROOM_6 => ascii::left_forward_room(),
-            // 7 print_left_right_room
-            c::FINAL_ROOM => ascii::left_right_room(),
-            _ => String::from("Space::get_art is very virus"),
-        }
+pub fn get_art(room_name: &str) -> String {
+    match room_name.trim() {
+        // 0, 2, 4 print_left_forward_right_room
+        c::STARTING_ROOM | c::ROOM_2 | c::ROOM_4 => ascii::left_forward_right_room(),
+        // 1, 5 print_forward_right_room
+        c::ROOM_1 | c::ROOM_5 => ascii::forward_right_room(),
+        // 3, 6 print_left_forward_room
+        c::ROOM_3 | c::ROOM_6 => ascii::left_forward_room(),
+        // 7 print_left_right_room
+        c::FINAL_ROOM => ascii::left_right_room(),
+        _ => String::from("Space::get_art is very virus"),
     }
 }
 
