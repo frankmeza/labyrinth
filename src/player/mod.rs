@@ -62,9 +62,13 @@ impl Player {
 
     pub fn drop_item(&mut self, name: &str) {
         let found_item = self.inventory.iter().position(|i| i == name);
-        let index = found_item.unwrap(); // TODO handle better
 
-        self.inventory.remove(index);
+        match found_item {
+            None => println!("drop_item is very virus"),
+            Some(index) => {
+                let _removed = self.inventory.remove(index);
+            }
+        }
     }
 
     pub fn handle_player_torch(&mut self) {

@@ -66,9 +66,14 @@ impl Space {
 
     pub fn remove_item_from_space(&mut self, item_name: &str) {
         let found_item = self.items.iter().position(|i| i == item_name);
-        let index = found_item.unwrap(); // TODO handle better
 
-        self.items.remove(index);
+        match found_item {
+            None => println!("remove_item_from_space is very virus"),
+            Some(index) => {
+                self.items.remove(index);
+                ()
+            }
+        }
     }
 
     pub fn add_item_to_space(&mut self, item_name: &str) {
