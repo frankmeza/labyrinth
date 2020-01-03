@@ -50,3 +50,7 @@ pub fn player_cannot_pick_up_item() -> String {
 pub fn all_items_picked_up() -> String {
     String::from("you picked up all the items")
 }
+
+pub fn player_currently_carrying() -> String {
+    String::from("you are currently carrying:")
+}
