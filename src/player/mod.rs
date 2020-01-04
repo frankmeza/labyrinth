@@ -38,6 +38,16 @@ impl Player {
         self.torch_lit
     }
 
+
+    pub fn get_items(&self) -> &Vec<String> {
+        &self.inventory
+    }
+
+    pub fn get_current_room(&self) -> String {
+        String::from(&self.current_room)
+    }
+
+
     // SETTERS //
 
     pub fn set_torch_lit(&mut self, is_lit: bool) {

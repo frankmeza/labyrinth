@@ -58,6 +58,10 @@ impl Space {
         self.items.len() > 0
     }
 
+    pub fn get_items(&self) -> &Vec<String> {
+        &self.items
+    }
+
     fn is_minotaur_space(&self) -> bool {
         &self.description == c::FINAL_ROOM
     }
@@ -92,11 +96,12 @@ impl Space {
                 }
 
                 if self.has_items() {
-                    menu::space_has_items(&self.items);
+                    menu::print_space_items(&self.get_items());
                 }
 
                 if player.has_items() {
                     menu::player_has_items();
+                    // story::player_items();
                 }
 
                 println!("{}", menu::quit_game());
@@ -157,10 +162,10 @@ impl Space {
                 false
             }
             c::CHOICE_I => {
+                // TODO BUG: choosing I also causes a change to room 1
                 if player.has_items() {
-                    for item in player.inventory.iter() {
-                        println!("{}", item);
-                    }
+                    story::player_currently_carrying();
+                    menu::print_player_items(&player.get_items());
                 }
 
                 false
@@ -187,7 +192,7 @@ impl Space {
 
         match found_index {
             None => {
-                println!("COMPUTER IS VERY VIRUS");
+                println!("get_space_by_index is very virus");
                 map.get_space(0)
             }
             Some(index) => map.get_space(*index),
@@ -201,7 +206,7 @@ impl Space {
 
         let exits_map = get_exits(&self.get_description());
 
-        // .trim() is necessary! see #1 at bottom
+        // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
         let space_type = match input.trim() {
             c::CHOICE_1 => Space::get_space_by_index(0, &map, exits_map),
             c::CHOICE_2 => Space::get_space_by_index(1, &map, exits_map),
@@ -218,8 +223,12 @@ impl Space {
         }
 
         let room_name = self.get_description();
+        let player_current_room = player.get_current_room();
 
-        player.set_current_room(&room_name);
+        if &room_name != &player_current_room {
+            player.set_current_room(&room_name);
+        }
+
         map.handle_arrive_in_room(space_type, player);
 
         has_selected

@@ -47,23 +47,18 @@ pub fn show_options() -> String {
     .join("\n")
 }
 
-pub fn space_has_items(items: &Vec<String>) {
-    println!("{}", story::items_on_ground());
-    let items_map = Item::all_items();
-
-    for name in items.iter() {
-        let found_item = items_map.get(name);
-
-        match found_item {
-            None => println!("handle_space_has_items is very virus"),
-            Some(item) => {
-                println!("{}", item.get_description());
-                println!("{}", item.get_art());
-            }
-        }
+pub fn print_space_items(items: &Vec<String>) {
+    if items.len() > 0 {
+        println!("{}", story::items_on_ground());
     }
 
+    Item::print_owned_items(&items);
+
     println!("{}", pick_up_items());
+}
+
+pub fn print_player_items(items: &Vec<String>) {
+    Item::print_owned_items(&items);
 }
 
 fn view_items() -> String {
