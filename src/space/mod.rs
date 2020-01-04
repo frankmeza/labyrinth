@@ -201,21 +201,17 @@ impl Space {
 
     pub fn handle_menu_selection(&self, input: &str, player: &mut Player) -> bool {
         let map = Map::new();
-        let mut is_moving_to_room = true;
         let mut has_selected = true;
 
         let exits_map = get_exits(&self.get_description());
 
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
-        let space_type = match input.trim() {
-            c::CHOICE_1 => Space::get_space_by_index(0, &map, exits_map),
-            c::CHOICE_2 => Space::get_space_by_index(1, &map, exits_map),
-            c::CHOICE_3 => Space::get_space_by_index(2, &map, exits_map),
-            c::CHOICE_4 => Space::get_space_by_index(3, &map, exits_map),
-            _ => {
-                is_moving_to_room = false;
-                Space::get_space_by_index(0, &map, exits_map)
-            }
+        let (space_type, is_moving_to_room) = match input.trim() {
+            c::CHOICE_1 => (Space::get_space_by_index(0, &map, exits_map), true),
+            c::CHOICE_2 => (Space::get_space_by_index(1, &map, exits_map), true),
+            c::CHOICE_3 => (Space::get_space_by_index(2, &map, exits_map), true),
+            c::CHOICE_4 => (Space::get_space_by_index(3, &map, exits_map), true),
+            _ => (Space::get_space_by_index(0, &map, exits_map), false),
         };
 
         if !is_moving_to_room {
@@ -223,12 +219,8 @@ impl Space {
         }
 
         let room_name = self.get_description();
-        let player_current_room = player.get_current_room();
-
-        if &room_name != &player_current_room {
-            player.set_current_room(&room_name);
-        }
-
+        player.set_current_room(&room_name);
+        println!("\n\n\n INPUT IS {}", &input);
         map.handle_arrive_in_room(space_type, player);
 
         has_selected
