@@ -5,7 +5,7 @@ use crate::{
 };
 
 pub struct Map {
-    pub spaces: Vec<SpaceType>,
+    pub spaces: [SpaceType; 8],
 }
 
 impl Map {
@@ -34,8 +34,8 @@ impl Map {
         space.do_menu(player);
     }
 
-    fn generate_map_spaces() -> Vec<SpaceType> {
-        vec![
+    fn generate_map_spaces() -> [SpaceType; 8] {
+        let space_types: [SpaceType; 8] = [
             SpaceType::Empty(EmptySpace::new(String::from(c::STARTING_ROOM))),
             SpaceType::Item(ItemSpace::new(String::from(c::ROOM_1))),
             SpaceType::Empty(EmptySpace::new(String::from(c::ROOM_2))),
@@ -44,6 +44,8 @@ impl Map {
             SpaceType::Empty(EmptySpace::new(String::from(c::ROOM_5))),
             SpaceType::Item(ItemSpace::new(String::from(c::ROOM_6))),
             SpaceType::Minotaur(MinotaurSpace::new(String::from(c::FINAL_ROOM))),
-        ]
+        ];
+
+        space_types
     }
 }
