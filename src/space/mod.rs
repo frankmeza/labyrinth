@@ -201,8 +201,6 @@ impl Space {
 
     pub fn handle_menu_selection(&self, input: &str, player: &mut Player) -> bool {
         let map = Map::new();
-        let mut has_selected = true;
-
         let exits_map = get_exits(&self.get_description());
 
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
@@ -215,15 +213,14 @@ impl Space {
         };
 
         if !is_moving_to_room {
-            has_selected = Space::handle_options_within_room(input, space_type, player);
+            return Space::handle_options_within_room(input, space_type, player);
         }
 
-        let room_name = self.get_description();
+        let room_name = space_type.get_room_name();
         player.set_current_room(&room_name);
-        println!("\n\n\n INPUT IS {}", &input);
         map.handle_arrive_in_room(space_type, player);
 
-        has_selected
+        true
     }
 }
 
