@@ -201,21 +201,18 @@ impl Space {
 
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
         let (space_type, staying_in_room) = match input.trim() {
-            c::CHOICE_1 => (Space::get_space_by_index(0, &map, exits_map), true),
-            c::CHOICE_2 => (Space::get_space_by_index(1, &map, exits_map), true),
-            c::CHOICE_3 => (Space::get_space_by_index(2, &map, exits_map), true),
-            c::CHOICE_4 => (Space::get_space_by_index(3, &map, exits_map), true),
-            _ => (Space::get_space_by_index(0, &map, exits_map), false),
+            c::CHOICE_1 => (Space::get_space_by_index(0, &map, exits_map), false),
+            c::CHOICE_2 => (Space::get_space_by_index(1, &map, exits_map), false),
+            c::CHOICE_3 => (Space::get_space_by_index(2, &map, exits_map), false),
+            c::CHOICE_4 => (Space::get_space_by_index(3, &map, exits_map), false),
+            _ => (Space::get_space_by_index(0, &map, exits_map), true),
         };
 
         if staying_in_room {
             return Space::handle_options_within_room(input, space_type, player);
         }
 
-        let room_name = space_type.get_room_name();
-        player.set_current_room(&room_name);
         map.handle_arrive_in_room(space_type, player);
-
         true
     }
 }
