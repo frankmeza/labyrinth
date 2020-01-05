@@ -138,9 +138,13 @@ impl Space {
 
                     if player_can_add_item {
                         println!("{}", get_exit_options(space.get_exits()));
-                        // TODO
-                        // space.remove_item(item_name)
-                        // player.pick_up_item(item_name)
+                        let items = space.get_items();
+
+                        for i in items.iter() {
+                            let string = String::from(i);
+                            player.add_item(string);
+                        }
+
                         all_items_picked_up = true;
                     } else {
                         // the player has no room for the item,

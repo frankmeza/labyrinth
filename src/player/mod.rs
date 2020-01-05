@@ -66,8 +66,8 @@ impl Player {
         };
     }
 
-    pub fn add_item(&mut self, item_name: &str) {
-        self.inventory.push(String::from(item_name));
+    pub fn add_item(&mut self, item_name: String) {
+        self.inventory.push(item_name);
     }
 
     pub fn drop_item(&mut self, name: &str) {
