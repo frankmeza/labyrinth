@@ -1,7 +1,7 @@
 use crate::{
     ascii, constants as c,
     player::Player,
-    space::{self, EmptySpace, ItemSpace, MinotaurSpace, SpaceType},
+    space::{self, EmptySpace, ItemSpace, MinotaurSpace, Space, SpaceType},
 };
 
 pub struct Map {
@@ -18,13 +18,24 @@ impl Map {
         &self.spaces[index]
     }
 
-    pub fn enter_labyrinth(&self, player: &mut Player) {
-        let starting_room = self.get_space(0);
-        Map::handle_arrive_in_room(&self, &starting_room, player);
+    pub fn get_space_by_name(&self, room_name: String) -> &Space {
+        let mut iter = self.spaces.iter();
+        let found_space = &iter.find(|&st| st.get_room_name() == room_name);
+
+        // TODO handle this better
+        match found_space {
+            None => self.get_space(0).get_space(),
+            Some(space_type) => space_type.get_space(),
+        }
     }
 
-    pub fn handle_arrive_in_room(&self, room: &SpaceType, player: &mut Player) {
-        let space = room.get_space();
+    pub fn enter_labyrinth(&self, player: &mut Player) {
+        let mut starting_room = self.get_space(0);
+        Map::handle_arrive_in_room(&self, &mut starting_room, player);
+    }
+
+    pub fn handle_arrive_in_room(&self, room: &mut SpaceType, player: &mut Player) {
+        let space = self.get_space_by_name(player.get_current_room());
 
         println!("{}", &space.get_art());
         println!("{}\n\n", &space.get_description());

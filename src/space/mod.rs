@@ -218,7 +218,7 @@ impl Space {
             return self.handle_options_within_room(input, &map, player);
         }
 
-        map.handle_arrive_in_room(space_type, player);
+        map.handle_arrive_in_room(&mut space_type, player);
         true
     }
 }
