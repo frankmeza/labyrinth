@@ -38,7 +38,6 @@ impl Player {
         self.torch_lit
     }
 
-
     pub fn get_items(&self) -> &Vec<String> {
         &self.inventory
     }
@@ -46,7 +45,6 @@ impl Player {
     pub fn get_current_room(&self) -> String {
         String::from(&self.current_room)
     }
-
 
     // SETTERS //
 
