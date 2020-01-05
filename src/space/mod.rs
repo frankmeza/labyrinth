@@ -162,7 +162,6 @@ impl Space {
                 false
             }
             c::CHOICE_I => {
-                // TODO BUG: choosing I also causes a change to room 1
                 if player.has_items() {
                     story::player_currently_carrying();
                     menu::print_player_items(&player.get_items());
@@ -191,10 +190,7 @@ impl Space {
         let found_index = exits_map.get(&index);
 
         match found_index {
-            None => {
-                println!("get_space_by_index is very virus");
-                map.get_space(0)
-            }
+            None => map.get_space(0),
             Some(index) => map.get_space(*index),
         }
     }
@@ -204,7 +200,7 @@ impl Space {
         let exits_map = get_exits(&self.get_description());
 
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
-        let (space_type, is_moving_to_room) = match input.trim() {
+        let (space_type, staying_in_room) = match input.trim() {
             c::CHOICE_1 => (Space::get_space_by_index(0, &map, exits_map), true),
             c::CHOICE_2 => (Space::get_space_by_index(1, &map, exits_map), true),
             c::CHOICE_3 => (Space::get_space_by_index(2, &map, exits_map), true),
@@ -212,7 +208,7 @@ impl Space {
             _ => (Space::get_space_by_index(0, &map, exits_map), false),
         };
 
-        if !is_moving_to_room {
+        if staying_in_room {
             return Space::handle_options_within_room(input, space_type, player);
         }
 
