@@ -31,6 +31,7 @@ impl Map {
         println!("{}\n", ascii::lit_torch());
         println!("{}", space::get_exit_options(&space.exits));
 
+        player.set_current_room(&room.get_room_name());
         space.do_menu(player);
     }
 
