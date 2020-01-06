@@ -1,4 +1,4 @@
-use crate::constants as c;
+use crate::{constants as c, map::Map, space::Space};
 
 #[derive(Debug)]
 pub struct Player {
@@ -65,6 +65,22 @@ impl Player {
     }
 
     pub fn add_item(&mut self, item_name: &str) {
+        let map = Map::new();
+        let mut iter = map.spaces.iter();
+        let found_space = &iter.find(|&st| st.get_room_name() == self.get_current_room());
+
+        // TODO handle this better
+        let space: &mut Space = match found_space {
+            None => {
+                let space: &mut Space = map.get_space(0).get_space();
+                space
+                // let space: &mut Space = space_type.g
+            }
+            Some(space_type) => space_type.get_space(),
+        };
+
+        space.remove_item_from_space(item_name);
+
         self.inventory.push(String::from(item_name));
     }
 

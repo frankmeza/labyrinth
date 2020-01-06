@@ -123,6 +123,17 @@ impl Space {
 
     // ASSOCIATED FUNCTIONS //
 
+    pub fn get_space_by_name(room_name: String, map: &Map) -> &Space {
+        let mut iter = map.spaces.iter();
+        let found_space = &iter.find(|&st| st.get_room_name() == room_name);
+
+        // TODO handle this better
+        match found_space {
+            None => map.get_space(0).get_space(),
+            Some(space_type) => space_type.get_space(),
+        }
+    }
+
     fn handle_options_within_room(
         input: &str,
         space_type: &SpaceType,
