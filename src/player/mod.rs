@@ -1,6 +1,7 @@
 use crate::{
     constants as c,
-    space::{self, Space},
+    map::Map,
+    space::{EmptySpace, SpaceType},
 };
 
 #[derive(Debug)]
@@ -67,11 +68,15 @@ impl Player {
         };
     }
 
-    pub fn take_item_from_space(&mut self, item_name: &str, space: &Space) {
-        let mut mutable_space = Space::new(String::from(&space.description));
+    pub fn take_item_from_space(&mut self, item_name: &str, index_of_space: usize) {
+        let mut map = Map::new();
+        let space_type = map.get_space(index_of_space);
 
-        mutable_space.remove_item_from_space(item_name);
-        println!("SPACE HAS ITEMS {:?}", &mutable_space);
+        let space_without_items = EmptySpace::new(String::from(&space_type.get_room_name()));
+
+        let updated_space_type = SpaceType::Empty(space_without_items);
+        map.spaces[index_of_space] = updated_space_type;
+
         self.inventory.push(String::from(item_name));
     }
 

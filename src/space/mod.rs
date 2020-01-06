@@ -68,18 +68,6 @@ impl Space {
 
     // SETTERS //
 
-    pub fn remove_item_from_space(&mut self, item_name: &str) {
-        let found_item = self.items.iter().position(|i| i == item_name);
-
-        match found_item {
-            None => println!("remove_item_from_space is very virus"),
-            Some(index) => {
-                self.items.remove(index);
-                ()
-            }
-        }
-    }
-
     pub fn add_item_to_space(&mut self, item_name: &str) {
         self.items.push(String::from(item_name));
     }
@@ -134,9 +122,16 @@ impl Space {
         }
     }
 
-    fn handle_options_within_room(&mut self, input: &str, map: &Map, player: &mut Player) -> bool {
+    fn handle_options_within_room(
+        &mut self,
+        input: &str,
+        map: &Map,
+        player: &mut Player,
+        space_type: &SpaceType,
+    ) -> bool {
         match input.trim() {
             c::CHOICE_0 => {
+                // change this into a map method, get_space_by_name, in another branch already?
                 let space = Space::get_space_by_name(player.get_current_room(), &map);
                 let mut all_items_picked_up = false;
 
@@ -147,9 +142,16 @@ impl Space {
                         println!("{}", get_exit_options(space.get_exits()));
                         let items_in_room = space.get_items();
 
+                        let spaces = map.get_spaces();
+                        let mut iter = spaces.iter();
+
+                        // todo fix unwrap
+                        let index_of_space = iter
+                            .position(|&s| &s.get_description() == &space_type.get_room_name())
+                            .unwrap();
+
                         for item in items_in_room.iter() {
-                            // space.remove_item_from_space(&item);
-                            player.take_item_from_space(&String::from(item), space);
+                            player.take_item_from_space(&String::from(item), index_of_space);
                         }
 
                         // space.remove_item(item_name)
@@ -223,7 +225,7 @@ impl Space {
 
         if staying_in_room {
             let mut new_space = Space::new(String::from(&self.description));
-            return new_space.handle_options_within_room(input, &map, player);
+            return new_space.handle_options_within_room(input, &map, player, &space_type);
         }
 
         map.handle_arrive_in_room(space_type, player);

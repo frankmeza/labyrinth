@@ -1,9 +1,10 @@
 use crate::{
     ascii, constants as c,
     player::Player,
-    space::{self, EmptySpace, ItemSpace, MinotaurSpace, SpaceType},
+    space::{self, EmptySpace, ItemSpace, MinotaurSpace, Space, SpaceType},
 };
 
+#[derive(Debug)]
 pub struct Map {
     pub spaces: [SpaceType; 8],
 }
@@ -12,6 +13,17 @@ impl Map {
     pub fn new() -> Self {
         let spaces = Map::generate_map_spaces();
         Map { spaces }
+    }
+
+    pub fn get_spaces(&self) -> Vec<&Space>{
+        let iter = self.spaces.iter();
+        let mut spaces = vec![];
+
+        for space_type in iter {
+            spaces.push(space_type.get_space());
+        }
+
+        spaces
     }
 
     pub fn get_space(&self, index: usize) -> &SpaceType {
