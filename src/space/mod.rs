@@ -128,11 +128,14 @@ impl Space {
         map: &Map,
         player: &mut Player,
         space_type: &SpaceType,
-    ) -> bool {
+    ) -> (&mut Map, bool) {
+        let mut map_in_update = map;
+
         match input.trim() {
             c::CHOICE_0 => {
+                let mut map_shell = Map::new();
                 // change this into a map method, get_space_by_name, in another branch already?
-                let space = Space::get_space_by_name(player.get_current_room(), &map);
+                let space = Space::get_space_by_name(player.get_current_room(), &map_in_update);
                 let mut all_items_picked_up = false;
 
                 if space.has_items() {
@@ -142,7 +145,7 @@ impl Space {
                         println!("{}", get_exit_options(space.get_exits()));
                         let items_in_room = space.get_items();
 
-                        let spaces = map.get_spaces();
+                        let spaces = map_in_update.get_spaces();
                         let mut iter = spaces.iter();
 
                         // todo fix unwrap
@@ -151,8 +154,10 @@ impl Space {
                             .unwrap();
 
                         for item in items_in_room.iter() {
-                            player.take_item_from_space(&String::from(item), index_of_space);
+                            map_shell = player.take_item_from_space(&String::from(item), index_of_space);
                         }
+
+                        map_in_update = &map_shell;
 
                         // space.remove_item(item_name)
                         // player.pick_up_item(item_name)
@@ -170,11 +175,11 @@ impl Space {
                     println!("{}", story::all_items_picked_up());
                 }
 
-                false
+                (map_in_update, false)
             }
             c::CHOICE_5 => {
                 player.handle_player_torch();
-                false
+                (map_in_update, false)
             }
             c::CHOICE_I => {
                 if player.has_items() {
@@ -182,20 +187,20 @@ impl Space {
                     menu::print_player_items(&player.get_items());
                 }
 
-                false
+                (map_in_update, false)
             }
             c::CHOICE_D => {
                 // TODO
                 // player.drop_item(name: &str)
-                false
+                (map_in_update, false)
             }
             c::CHOICE_Q => {
                 Game::quit();
-                false
+                (map_in_update, false)
             }
             _ => {
                 Game::quit();
-                false
+                (map_in_update, false)
             }
         }
     }

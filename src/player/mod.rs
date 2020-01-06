@@ -68,7 +68,7 @@ impl Player {
         };
     }
 
-    pub fn take_item_from_space(&mut self, item_name: &str, index_of_space: usize) {
+    pub fn take_item_from_space(&mut self, item_name: &str, index_of_space: usize) -> Map {
         let mut map = Map::new();
         let space_type = map.get_space(index_of_space);
 
@@ -78,6 +78,7 @@ impl Player {
         map.spaces[index_of_space] = updated_space_type;
 
         self.inventory.push(String::from(item_name));
+        map
     }
 
     pub fn drop_item(&mut self, name: &str) {
