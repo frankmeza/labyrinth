@@ -27,8 +27,8 @@ pub enum SpaceType {
 }
 
 impl Space {
-    fn new(description: String) -> Self {
-        let exits = get_exits(&description);
+    pub fn new(description: String) -> Self {
+        let exits = get_exits_map(&description);
         let art = get_art(&description);
         let items = get_items(&description);
 
@@ -123,14 +123,21 @@ impl Space {
 
     // ASSOCIATED FUNCTIONS //
 
-    fn handle_options_within_room(
-        input: &str,
-        space_type: &SpaceType,
-        player: &mut Player,
-    ) -> bool {
+    pub fn get_space_by_name(room_name: String, map: &Map) -> &Space {
+        let mut iter = map.spaces.iter();
+        let found_space = &iter.find(|&st| st.get_room_name() == room_name);
+
+        // TODO handle this better
+        match found_space {
+            None => map.get_space(0).get_space(),
+            Some(space_type) => space_type.get_space(),
+        }
+    }
+
+    fn handle_options_within_room(&mut self, input: &str, map: &Map, player: &mut Player) -> bool {
         match input.trim() {
             c::CHOICE_0 => {
-                let space = space_type.get_space();
+                let space = Space::get_space_by_name(player.get_current_room(), &map);
                 let mut all_items_picked_up = false;
 
                 if space.has_items() {
@@ -138,7 +145,13 @@ impl Space {
 
                     if player_can_add_item {
                         println!("{}", get_exit_options(space.get_exits()));
-                        // TODO
+                        let items_in_room = space.get_items();
+
+                        for item in items_in_room.iter() {
+                            // space.remove_item_from_space(&item);
+                            player.take_item_from_space(&String::from(item), space);
+                        }
+
                         // space.remove_item(item_name)
                         // player.pick_up_item(item_name)
                         all_items_picked_up = true;
@@ -197,7 +210,7 @@ impl Space {
 
     pub fn handle_menu_selection(&self, input: &str, player: &mut Player) -> bool {
         let map = Map::new();
-        let exits_map = get_exits(&self.get_description());
+        let exits_map = get_exits_map(&self.get_description());
 
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
         let (space_type, staying_in_room) = match input.trim() {
@@ -209,7 +222,8 @@ impl Space {
         };
 
         if staying_in_room {
-            return Space::handle_options_within_room(input, space_type, player);
+            let mut new_space = Space::new(String::from(&self.description));
+            return new_space.handle_options_within_room(input, &map, player);
         }
 
         map.handle_arrive_in_room(space_type, player);
@@ -237,7 +251,7 @@ impl SpaceType {
     }
 }
 
-pub fn get_exits(room_name: &str) -> HashMap<usize, usize> {
+pub fn get_exits_map(room_name: &str) -> HashMap<usize, usize> {
     match room_name {
         c::STARTING_ROOM => {
             let mut e = HashMap::new();

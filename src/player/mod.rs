@@ -1,4 +1,7 @@
-use crate::constants as c;
+use crate::{
+    constants as c,
+    space::{self, Space},
+};
 
 #[derive(Debug)]
 pub struct Player {
@@ -64,7 +67,11 @@ impl Player {
         };
     }
 
-    pub fn add_item(&mut self, item_name: &str) {
+    pub fn take_item_from_space(&mut self, item_name: &str, space: &Space) {
+        let mut mutable_space = Space::new(String::from(&space.description));
+
+        mutable_space.remove_item_from_space(item_name);
+        println!("SPACE HAS ITEMS {:?}", &mutable_space);
         self.inventory.push(String::from(item_name));
     }
 
