@@ -176,11 +176,17 @@ impl Space {
     }
 
     // helper fn, acts as a closure in handle_menu_selection()
+    // TODO
     fn get_space_by_index(index: usize, map: &Map, exits_map: HashMap<usize, usize>) -> &Space {
         let found_index = exits_map.get(&index);
+        println!("EXITS MAP: {:?}", &exits_map);
+        println!("INDEXXXX: {:?}", &index);
 
         match found_index {
-            None => map.get_space(0),
+            None => {
+                println!("get_space_by_index very virus");
+                map.get_space(0)
+            },
             Some(index) => map.get_space(*index),
         }
     }
@@ -202,7 +208,7 @@ impl Space {
 
         let map = Map::new();
         let map_ref = Map::new();
-
+        println!("INPUT IS {}", &input);
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
         let (space, staying_in_room) = match input.trim() {
             c::CHOICE_1 => (Space::get_space_by_index(0, &map_ref, exits_map), false),
