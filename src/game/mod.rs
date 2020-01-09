@@ -15,7 +15,9 @@ impl Game {
         Game::print_start_message();
 
         let map = Map::new();
-        map.enter_labyrinth(player);
+        let map_ref = Map::new();
+
+        map.enter_labyrinth(player, &map_ref);
     }
 
     pub fn quit() {
