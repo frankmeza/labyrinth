@@ -41,12 +41,12 @@ impl Map {
         }
     }
 
-    pub fn enter_labyrinth(&self, player: &mut Player, map_ref: &Map) {
+    pub fn enter_labyrinth(&self, player: &mut Player) {
         let starting_room = self.get_space(0);
-        Map::handle_arrive_in_room(&self, starting_room, player, map_ref);
+        Map::handle_arrive_in_room(&self, starting_room, player);
     }
 
-    pub fn handle_arrive_in_room(&self, room: &Space, player: &mut Player, map_ref: &Map) {
+    pub fn handle_arrive_in_room(&self, room: &Space, player: &mut Player) {
         let space = self.get_space_by_name(player.get_current_room());
 
         println!("{}", &space.get_art());

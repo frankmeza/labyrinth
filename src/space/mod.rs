@@ -212,7 +212,7 @@ impl Space {
             return Space::handle_options_within_room(input, map, player, space);
         }
 
-        map.handle_arrive_in_room(&space, player, &map_ref);
+        map.handle_arrive_in_room(&space, player);
         true
     }
 }

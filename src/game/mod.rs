@@ -13,11 +13,9 @@ impl Game {
 
     pub fn run(player: &mut Player) {
         Game::print_start_message();
-
         let map = Map::new();
-        let map_ref = Map::new();
 
-        map.enter_labyrinth(player, &map_ref);
+        map.enter_labyrinth(player);
     }
 
     pub fn quit() {
