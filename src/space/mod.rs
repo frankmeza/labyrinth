@@ -76,7 +76,12 @@ impl Space {
         self.items.push(String::from(item_name));
     }
 
-    fn handle_options_within_room(input: &str, mut map: Map, player: &mut Player, space: &Space) -> bool {
+    fn handle_options_within_room(
+        input: &str,
+        mut map: Map,
+        player: &mut Player,
+        space: &Space,
+    ) -> bool {
         match input.trim() {
             c::CHOICE_0 => {
                 if space.has_items() {
@@ -132,7 +137,6 @@ impl Space {
     }
 
     // ASSOCIATED FUNCTIONS //
-
 
     pub fn do_menu(player: &mut Player, space: &Space) {
         let mut got_input = false;
