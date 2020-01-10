@@ -76,7 +76,7 @@ impl Space {
         self.items.push(String::from(item_name));
     }
 
-    fn handle_options_within_room(input: &str, mut map: Map, player: &mut Player) -> bool {
+    fn handle_options_within_room(input: &str, map: &mut Map, player: &mut Player) -> bool {
         let map_ref = Map::new();
 
         let space = Space::get_space_by_name(player.get_current_room(), &map_ref);
@@ -142,8 +142,14 @@ impl Space {
 
     // ASSOCIATED FUNCTIONS //
 
-    pub fn do_menu(player: &mut Player, map_ref: &Map) {
+    pub fn do_menu(player: &mut Player, map: &mut Map) {
+        let map_ref = Map::new();
         let space = Space::get_space_by_name(player.get_current_room(), &map_ref);
+        let iter = &mut map_ref.spaces.iter();
+
+        let found_index = &iter
+            .position(|s| s.get_description() == player.get_current_room())
+            .unwrap();
 
         let mut got_input = false;
         let mut did_print_torch = true;
@@ -155,10 +161,8 @@ impl Space {
                     did_print_torch = false;
                 }
 
-                if space.has_items() {
-                    // TODO do a ghetto check in here that the
-                    // items in space don't already exist in player
-                    menu::print_space_items(&space.get_items());
+                if map.spaces[*found_index].has_items() {
+                    menu::print_space_items(&map.spaces[*found_index].get_items());
                 }
 
                 if player.has_items() {
@@ -179,7 +183,7 @@ impl Space {
             let mut input = String::from("");
             io::stdin().read_line(&mut input).unwrap().to_string();
 
-            got_input = Space::handle_menu_selection(&input, player, space);
+            got_input = Space::handle_menu_selection(&input, player, space, map);
         }
     }
 
@@ -196,8 +200,6 @@ impl Space {
     // helper fn, acts as a closure in handle_menu_selection()
     fn get_space_by_index(index: usize, map: &Map, exits_map: HashMap<usize, usize>) -> &Space {
         let found_index = exits_map.get(&index);
-        println!("EXITS MAP: {:?}", &exits_map);
-        println!("INDEXXXX: {:?}", &index);
 
         match found_index {
             None => {
@@ -208,9 +210,13 @@ impl Space {
         }
     }
 
-    pub fn handle_menu_selection(input: &str, player: &mut Player, space: &Space) -> bool {
+    pub fn handle_menu_selection(
+        input: &str,
+        player: &mut Player,
+        space: &Space,
+        map: &mut Map,
+    ) -> bool {
         let exits_map = get_exits(&space.get_description());
-        let map = Map::new();
         let map_ref = Map::new();
 
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom

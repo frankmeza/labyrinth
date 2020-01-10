@@ -13,7 +13,7 @@ impl Game {
 
     pub fn run(player: &mut Player) {
         Game::print_start_message();
-        let map = Map::new();
+        let mut map = Map::new();
 
         map.enter_labyrinth(player);
     }

@@ -36,18 +36,17 @@ impl Map {
 
         match found_index {
             None => println!("remove_items_from_space is very virus"),
-            Some(index) => {
-                self.spaces[index].items.clear();
-            }
+            Some(index) => self.spaces[index].items.clear(),
         }
     }
 
-    pub fn enter_labyrinth(&self, player: &mut Player) {
-        let starting_room = self.get_space(0);
-        Map::handle_arrive_in_room(&self, starting_room, player);
+    pub fn enter_labyrinth(&mut self, player: &mut Player) {
+        let map_ref = Self::new();
+        let starting_room = map_ref.get_space(0);
+        Map::handle_arrive_in_room(self, starting_room, player);
     }
 
-    pub fn handle_arrive_in_room(&self, room: &Space, player: &mut Player) {
+    pub fn handle_arrive_in_room(&mut self, room: &Space, player: &mut Player) {
         let space = self.get_space_by_name(room.get_description());
 
         println!("{}", &space.get_art());
