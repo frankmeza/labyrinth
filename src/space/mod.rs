@@ -202,10 +202,7 @@ impl Space {
         let found_index = exits_map.get(&index);
 
         match found_index {
-            None => {
-                println!("get_space_by_index very virus");
-                map.get_space(0)
-            }
+            None => map.get_space(0),
             Some(index) => map.get_space(*index),
         }
     }
