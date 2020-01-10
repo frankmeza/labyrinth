@@ -82,20 +82,30 @@ impl Space {
         player: &mut Player,
         space: &Space,
     ) -> bool {
+        let map_ref = Map::new();
+        let iter = &mut map_ref.spaces.iter();
+
+        let found_index = &iter
+            .position(|s| s.get_description() == player.get_current_room())
+            .unwrap();
+
         match input.trim() {
             c::CHOICE_0 => {
-                if space.has_items() {
+                if map.spaces[*found_index].has_items() {
                     let player_can_add_item = player.inventory.len() < c::MAX_NUMBER_ITEMS;
 
                     if player_can_add_item {
                         println!("{}", get_exit_options(space.get_exits()));
                         let items_in_room = space.get_items();
 
+                        println!("MAP SPACE HAS ITEMS TO BE PICKED UP {:?}", &map.spaces[*found_index]);
+
                         for item in items_in_room.iter() {
                             map.remove_items_from_space(space);
                             player.add_item(&item);
                         }
 
+                        println!("MAP STILL HAS PICKED UP ITEMS IN ITS SPACE {:?}", &map.spaces[*found_index]);
                         println!("{}", story::all_items_picked_up());
                     } else {
                         // the player has no room for the item,
@@ -200,13 +210,11 @@ impl Space {
         }
     }
 
-    // try to get here
     pub fn handle_menu_selection(input: &str, player: &mut Player, space: &Space) -> bool {
         let exits_map = get_exits(&space.get_description());
-
         let map = Map::new();
         let map_ref = Map::new();
-        println!("INPUT IS {}", &input);
+
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
         let (space, staying_in_room) = match input.trim() {
             c::CHOICE_1 => (Space::get_space_by_index(0, &map_ref, exits_map), false),
@@ -222,26 +230,6 @@ impl Space {
 
         map.handle_arrive_in_room(&space, player);
         true
-    }
-}
-
-impl SpaceType {
-    // GETTERS //
-
-    pub fn get_space(&self) -> &Space {
-        match self {
-            SpaceType::Empty(e) => &e.space,
-            SpaceType::Item(i) => &i.space,
-            SpaceType::Minotaur(m) => &m.space,
-        }
-    }
-
-    pub fn get_room_name(&self) -> String {
-        match self {
-            SpaceType::Empty(e) => String::from(&e.space.description),
-            SpaceType::Item(i) => String::from(&i.space.description),
-            SpaceType::Minotaur(m) => String::from(&m.space.description),
-        }
     }
 }
 
