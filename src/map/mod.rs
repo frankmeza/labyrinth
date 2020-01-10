@@ -4,6 +4,7 @@ use crate::{
     space::{self, Space},
 };
 
+#[derive(Debug)]
 pub struct Map {
     pub spaces: [Space; 8],
 }
@@ -30,8 +31,8 @@ impl Map {
     }
 
     pub fn remove_items_from_space(&mut self, space: &Space) {
-         let mut iter = self.spaces.iter();
-         let found_index = iter.position(|s| &s.get_description() == &space.get_description());
+        let mut iter = self.spaces.iter();
+        let found_index = iter.position(|s| &s.get_description() == &space.get_description());
 
         match found_index {
             None => println!("remove_items_from_space is very virus"),
@@ -49,13 +50,13 @@ impl Map {
     pub fn handle_arrive_in_room(&self, room: &Space, player: &mut Player) {
         let space = self.get_space_by_name(room.get_description());
 
+        player.set_current_room(&room.get_description());
+        Space::do_menu(player, space);
+
         println!("{}", &space.get_art());
         println!("{}\n\n", &space.get_description());
         println!("{}\n", ascii::lit_torch());
         println!("{}", space::get_exit_options(&space.exits));
-
-        player.set_current_room(&room.get_description());
-        Space::do_menu(player, space);
     }
 
     fn generate_map_spaces() -> [Space; 8] {
