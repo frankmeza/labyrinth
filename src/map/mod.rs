@@ -47,7 +47,7 @@ impl Map {
     }
 
     pub fn handle_arrive_in_room(&self, room: &Space, player: &mut Player) {
-        let space = self.get_space_by_name(player.get_current_room());
+        let space = self.get_space_by_name(room.get_description());
 
         println!("{}", &space.get_art());
         println!("{}\n\n", &space.get_description());
