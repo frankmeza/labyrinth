@@ -50,13 +50,13 @@ impl Map {
     pub fn handle_arrive_in_room(&self, room: &Space, player: &mut Player) {
         let space = self.get_space_by_name(room.get_description());
 
-        player.set_current_room(&room.get_description());
-        Space::do_menu(player, space);
-
         println!("{}", &space.get_art());
         println!("{}\n\n", &space.get_description());
         println!("{}\n", ascii::lit_torch());
         println!("{}", space::get_exit_options(&space.exits));
+
+        player.set_current_room(&room.get_description());
+        Space::do_menu(player, self);
     }
 
     fn generate_map_spaces() -> [Space; 8] {

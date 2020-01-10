@@ -76,13 +76,10 @@ impl Space {
         self.items.push(String::from(item_name));
     }
 
-    fn handle_options_within_room(
-        input: &str,
-        mut map: Map,
-        player: &mut Player,
-        space: &Space,
-    ) -> bool {
+    fn handle_options_within_room(input: &str, mut map: Map, player: &mut Player) -> bool {
         let map_ref = Map::new();
+
+        let space = Space::get_space_by_name(player.get_current_room(), &map_ref);
         let iter = &mut map_ref.spaces.iter();
 
         let found_index = &iter
@@ -98,14 +95,11 @@ impl Space {
                         println!("{}", get_exit_options(space.get_exits()));
                         let items_in_room = space.get_items();
 
-                        println!("MAP SPACE HAS ITEMS TO BE PICKED UP {:?}", &map.spaces[*found_index]);
-
                         for item in items_in_room.iter() {
-                            map.remove_items_from_space(space);
                             player.add_item(&item);
                         }
 
-                        println!("MAP STILL HAS PICKED UP ITEMS IN ITS SPACE {:?}", &map.spaces[*found_index]);
+                        map.remove_items_from_space(space);
                         println!("{}", story::all_items_picked_up());
                     } else {
                         // the player has no room for the item,
@@ -148,7 +142,9 @@ impl Space {
 
     // ASSOCIATED FUNCTIONS //
 
-    pub fn do_menu(player: &mut Player, space: &Space) {
+    pub fn do_menu(player: &mut Player, map_ref: &Map) {
+        let space = Space::get_space_by_name(player.get_current_room(), &map_ref);
+
         let mut got_input = false;
         let mut did_print_torch = true;
 
@@ -160,6 +156,8 @@ impl Space {
                 }
 
                 if space.has_items() {
+                    // TODO do a ghetto check in here that the
+                    // items in space don't already exist in player
                     menu::print_space_items(&space.get_items());
                 }
 
@@ -225,7 +223,7 @@ impl Space {
         };
 
         if staying_in_room {
-            return Space::handle_options_within_room(input, map, player, space);
+            return Space::handle_options_within_room(input, map, player);
         }
 
         map.handle_arrive_in_room(&space, player);
