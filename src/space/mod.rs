@@ -175,8 +175,17 @@ impl Space {
         }
     }
 
+    pub fn get_space_by_name(room_name: String, map: &Map) -> &Space {
+        let mut iter = map.spaces.iter();
+        let found_space = &iter.find(|&st| st.get_description() == room_name);
+        // TODO handle this better
+        match found_space {
+            None => map.get_space(0),
+            Some(space) => space,
+        }
+    }
+
     // helper fn, acts as a closure in handle_menu_selection()
-    // TODO
     fn get_space_by_index(index: usize, map: &Map, exits_map: HashMap<usize, usize>) -> &Space {
         let found_index = exits_map.get(&index);
         println!("EXITS MAP: {:?}", &exits_map);
@@ -186,19 +195,8 @@ impl Space {
             None => {
                 println!("get_space_by_index very virus");
                 map.get_space(0)
-            },
+            }
             Some(index) => map.get_space(*index),
-        }
-    }
-
-    pub fn get_space_by_name(room_name: String, map: &Map) -> &Space {
-        let mut iter = map.spaces.iter();
-        let found_space = &iter.find(|&st| st.get_description() == room_name);
-
-        // TODO handle this better
-        match found_space {
-            None => map.get_space(0),
-            Some(space) => space,
         }
     }
 
