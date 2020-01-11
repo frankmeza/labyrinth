@@ -27,7 +27,7 @@ pub enum SpaceType {
 }
 
 impl Space {
-    fn new(description: String) -> Self {
+    pub fn new(description: String) -> Self {
         let exits = get_exits(&description);
         let art = get_art(&description);
         let items = get_items(&description);
@@ -68,23 +68,86 @@ impl Space {
 
     // SETTERS //
 
-    pub fn remove_item_from_space(&mut self, item_name: &str) {
-        let found_item = self.items.iter().position(|i| i == item_name);
+    // pub fn remove_items_from_space(space: &Space) {
 
-        match found_item {
-            None => println!("remove_item_from_space is very virus"),
-            Some(index) => {
-                self.items.remove(index);
-                ()
+    // }
+
+    fn handle_options_within_room(input: &str, map: &mut Map, player: &mut Player) -> bool {
+        let map_ref = Map::new();
+
+        let space = Space::get_space_by_name(player.get_current_room(), &map_ref);
+        let iter = &mut map_ref.spaces.iter();
+
+        let found_index = &iter
+            .position(|s| s.get_description() == player.get_current_room())
+            .unwrap();
+
+        match input.trim() {
+            c::CHOICE_0 => {
+                if map.spaces[*found_index].has_items() {
+                    let player_can_add_item = player.inventory.len() < c::MAX_NUMBER_ITEMS;
+
+                    if player_can_add_item {
+                        println!("{}", get_exit_options(space.get_exits()));
+                        let items_in_room = space.get_items();
+
+                        for item in items_in_room.iter() {
+                            player.add_item(&item);
+                        }
+
+                        map.remove_items_from_space(space);
+                        println!("{}", story::all_items_picked_up());
+                    } else {
+                        // the player has no room for the item,
+                        // and so it must remain here in this space.
+                        println!("{}", story::player_cannot_pick_up_item());
+                    }
+                } else {
+                    // TODO
+                }
+
+                false
+            }
+            c::CHOICE_5 => {
+                player.handle_player_torch();
+                false
+            }
+            c::CHOICE_I => {
+                if player.has_items() {
+                    story::player_currently_carrying();
+                    menu::print_player_items(&player.get_items());
+                }
+
+                false
+            }
+            c::CHOICE_D => {
+                // TODO
+                // player.drop_item(name: &str)
+                // map.add_item_to_space(space: &mut Space, item_name: &str)
+                false
+            }
+            c::CHOICE_Q => {
+                Game::quit();
+                false
+            }
+            _ => {
+                Game::quit();
+                false
             }
         }
     }
 
-    pub fn add_item_to_space(&mut self, item_name: &str) {
-        self.items.push(String::from(item_name));
-    }
+    // ASSOCIATED FUNCTIONS //
 
-    pub fn do_menu(&self, player: &mut Player) {
+    pub fn do_menu(player: &mut Player, map: &mut Map) {
+        let map_ref = Map::new();
+        let space = Space::get_space_by_name(player.get_current_room(), &map_ref);
+        let iter = &mut map_ref.spaces.iter();
+
+        let found_index = &iter
+            .position(|s| s.get_description() == player.get_current_room())
+            .unwrap();
+
         let mut got_input = false;
         let mut did_print_torch = true;
 
@@ -95,8 +158,8 @@ impl Space {
                     did_print_torch = false;
                 }
 
-                if self.has_items() {
-                    menu::print_space_items(&self.get_items());
+                if map.spaces[*found_index].has_items() {
+                    menu::print_space_items(&map.spaces[*found_index].get_items());
                 }
 
                 if player.has_items() {
@@ -117,76 +180,22 @@ impl Space {
             let mut input = String::from("");
             io::stdin().read_line(&mut input).unwrap().to_string();
 
-            got_input = Space::handle_menu_selection(&self, &input, player);
+            got_input = Space::handle_menu_selection(&input, player, space, map);
         }
     }
 
-    // ASSOCIATED FUNCTIONS //
-
-    fn handle_options_within_room(
-        input: &str,
-        space_type: &SpaceType,
-        player: &mut Player,
-    ) -> bool {
-        match input.trim() {
-            c::CHOICE_0 => {
-                let space = space_type.get_space();
-                let mut all_items_picked_up = false;
-
-                if space.has_items() {
-                    let player_can_add_item = player.inventory.len() < c::MAX_NUMBER_ITEMS;
-
-                    if player_can_add_item {
-                        println!("{}", get_exit_options(space.get_exits()));
-                        // TODO
-                        // space.remove_item(item_name)
-                        // player.pick_up_item(item_name)
-                        all_items_picked_up = true;
-                    } else {
-                        // the player has no room for the item,
-                        // and so it must remain here in this space.
-                        println!("{}", story::player_cannot_pick_up_item());
-                    }
-                } else {
-                    // TODO
-                }
-
-                if all_items_picked_up {
-                    println!("{}", story::all_items_picked_up());
-                }
-
-                false
-            }
-            c::CHOICE_5 => {
-                player.handle_player_torch();
-                false
-            }
-            c::CHOICE_I => {
-                if player.has_items() {
-                    story::player_currently_carrying();
-                    menu::print_player_items(&player.get_items());
-                }
-
-                false
-            }
-            c::CHOICE_D => {
-                // TODO
-                // player.drop_item(name: &str)
-                false
-            }
-            c::CHOICE_Q => {
-                Game::quit();
-                false
-            }
-            _ => {
-                Game::quit();
-                false
-            }
+    pub fn get_space_by_name(room_name: String, map: &Map) -> &Space {
+        let mut iter = map.spaces.iter();
+        let found_space = &iter.find(|&st| st.get_description() == room_name);
+        // TODO handle this better
+        match found_space {
+            None => map.get_space(0),
+            Some(space) => space,
         }
     }
 
     // helper fn, acts as a closure in handle_menu_selection()
-    fn get_space_by_index(index: usize, map: &Map, exits_map: HashMap<usize, usize>) -> &SpaceType {
+    fn get_space_by_index(index: usize, map: &Map, exits_map: HashMap<usize, usize>) -> &Space {
         let found_index = exits_map.get(&index);
 
         match found_index {
@@ -195,45 +204,30 @@ impl Space {
         }
     }
 
-    pub fn handle_menu_selection(&self, input: &str, player: &mut Player) -> bool {
-        let map = Map::new();
-        let exits_map = get_exits(&self.get_description());
+    pub fn handle_menu_selection(
+        input: &str,
+        player: &mut Player,
+        space: &Space,
+        map: &mut Map,
+    ) -> bool {
+        let exits_map = get_exits(&space.get_description());
+        let map_ref = Map::new();
 
         // .trim() is necessary for io::stdin().read_line(&mut input), see #1 at bottom
-        let (space_type, staying_in_room) = match input.trim() {
-            c::CHOICE_1 => (Space::get_space_by_index(0, &map, exits_map), false),
-            c::CHOICE_2 => (Space::get_space_by_index(1, &map, exits_map), false),
-            c::CHOICE_3 => (Space::get_space_by_index(2, &map, exits_map), false),
-            c::CHOICE_4 => (Space::get_space_by_index(3, &map, exits_map), false),
-            _ => (Space::get_space_by_index(0, &map, exits_map), true),
+        let (space, staying_in_room) = match input.trim() {
+            c::CHOICE_1 => (Space::get_space_by_index(0, &map_ref, exits_map), false),
+            c::CHOICE_2 => (Space::get_space_by_index(1, &map_ref, exits_map), false),
+            c::CHOICE_3 => (Space::get_space_by_index(2, &map_ref, exits_map), false),
+            c::CHOICE_4 => (Space::get_space_by_index(3, &map_ref, exits_map), false),
+            _ => (Space::get_space_by_index(0, &map_ref, exits_map), true),
         };
 
         if staying_in_room {
-            return Space::handle_options_within_room(input, space_type, player);
+            return Space::handle_options_within_room(input, map, player);
         }
 
-        map.handle_arrive_in_room(space_type, player);
+        map.handle_arrive_in_room(&space, player);
         true
-    }
-}
-
-impl SpaceType {
-    // GETTERS //
-
-    pub fn get_space(&self) -> &Space {
-        match self {
-            SpaceType::Empty(e) => &e.space,
-            SpaceType::Item(i) => &i.space,
-            SpaceType::Minotaur(m) => &m.space,
-        }
-    }
-
-    pub fn get_room_name(&self) -> String {
-        match self {
-            SpaceType::Empty(e) => String::from(&e.space.description),
-            SpaceType::Item(i) => String::from(&i.space.description),
-            SpaceType::Minotaur(m) => String::from(&m.space.description),
-        }
     }
 }
 
