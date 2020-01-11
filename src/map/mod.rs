@@ -40,6 +40,12 @@ impl Map {
         }
     }
 
+
+    pub fn add_item_to_space(&mut self, space: &mut Space, item_name: &str) {
+        space.items.push(String::from(item_name));
+    }
+
+
     pub fn enter_labyrinth(&mut self, player: &mut Player) {
         let map_ref = Self::new();
         let starting_room = map_ref.get_space(0);

@@ -72,10 +72,6 @@ impl Space {
 
     // }
 
-    pub fn add_item_to_space(&mut self, item_name: &str) {
-        self.items.push(String::from(item_name));
-    }
-
     fn handle_options_within_room(input: &str, map: &mut Map, player: &mut Player) -> bool {
         let map_ref = Map::new();
 
@@ -127,6 +123,7 @@ impl Space {
             c::CHOICE_D => {
                 // TODO
                 // player.drop_item(name: &str)
+                // map.add_item_to_space(space: &mut Space, item_name: &str)
                 false
             }
             c::CHOICE_Q => {
