@@ -55,7 +55,6 @@ impl Map {
         println!("{}", &space.get_art());
         println!("{}\n\n", &space.get_description());
         println!("{}\n", ascii::lit_torch());
-        println!("{}", space::get_exit_options(&space.exits));
 
         player.set_current_room(&room.get_description());
         Space::do_menu(player, self);
