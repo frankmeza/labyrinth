@@ -34,6 +34,7 @@ pub const CHOICE_5: &str = "5";
 pub const CHOICE_I: &str = "i";
 pub const CHOICE_D: &str = "d";
 pub const CHOICE_Q: &str = "q";
+pub const CHOICE_X: &str = "x";
 
 // MENU //
 

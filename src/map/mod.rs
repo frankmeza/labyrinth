@@ -1,8 +1,4 @@
-use crate::{
-    ascii, constants as c,
-    player::Player,
-    space::{self, Space},
-};
+use crate::{ascii, constants as c, player::Player, space::Space};
 
 #[derive(Debug)]
 pub struct Map {
@@ -39,9 +35,10 @@ impl Map {
         }
     }
 
-    pub fn add_item_to_space(&mut self, space: &mut Space, item_name: &str) {
-        space.items.push(String::from(item_name));
-    }
+    // TODO
+    // pub fn add_item_to_space(&mut self, space: &mut Space, item_name: &str) {
+    //     space.items.push(String::from(item_name));
+    // }
 
     pub fn enter_labyrinth(&mut self, player: &mut Player) {
         let map_ref = Self::new();
