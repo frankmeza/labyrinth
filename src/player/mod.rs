@@ -49,19 +49,11 @@ impl Player {
     // SETTERS //
 
     pub fn set_torch_lit(&mut self, is_lit: bool) {
-        *self = Self {
-            torch_lit: is_lit,
-            inventory: self.inventory.clone(), // todo come back to this another way
-            current_room: String::from(&self.current_room),
-        };
+        self.torch_lit = is_lit;
     }
 
     pub fn set_current_room(&mut self, room_name: &str) {
-        *self = Player {
-            current_room: String::from(room_name),
-            inventory: self.inventory.clone(),
-            torch_lit: self.get_torch_lit(),
-        };
+        self.current_room = String::from(room_name);
     }
 
     pub fn add_item(&mut self, item_name: &str) {
