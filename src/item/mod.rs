@@ -86,13 +86,16 @@ impl Item {
 
     pub fn print_owned_items(items: &Vec<String>) {
         let items_map = Item::all_items();
+        let mut counter = 0;
 
         for name in items.iter() {
+            counter += 1;
             let found_item = items_map.get(name);
 
             match found_item {
                 None => println!("print_owned_items is very virus"),
                 Some(item) => {
+                    println!("item {} is:", counter);
                     println!("{}", item.get_description());
                     println!("{}\n", item.get_art());
                 }
