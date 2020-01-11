@@ -94,7 +94,7 @@ impl Item {
                 None => println!("print_owned_items is very virus"),
                 Some(item) => {
                     println!("{}", item.get_description());
-                    println!("{}", item.get_art());
+                    println!("{}\n", item.get_art());
                 }
             }
         }

@@ -103,7 +103,7 @@ impl Space {
                         println!("{}", story::player_cannot_pick_up_item());
                     }
                 } else {
-                    // TODO
+                    // TODO torch coundtdown thing here right? maybe not here
                 }
 
                 false
@@ -187,7 +187,7 @@ impl Space {
     pub fn get_space_by_name(room_name: String, map: &Map) -> &Space {
         let mut iter = map.spaces.iter();
         let found_space = &iter.find(|&st| st.get_description() == room_name);
-        // TODO handle this better
+
         match found_space {
             None => map.get_space(0),
             Some(space) => space,
@@ -295,7 +295,7 @@ pub fn get_exits(room_name: &str) -> HashMap<usize, usize> {
 
 pub fn get_items(room_name: &str) -> Vec<String> {
     match room_name {
-        c::ROOM_1 => vec![String::from(c::MATCHES)],
+        c::ROOM_1 => vec![String::from(c::ARROWS)],
         c::ROOM_3 => vec![String::from(c::SHIELD)],
         c::ROOM_4 => vec![String::from(c::HEALTH_POTION)],
         c::ROOM_6 => vec![String::from(c::BOW)],

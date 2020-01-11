@@ -27,7 +27,10 @@ pub fn lost_in_a_labyrinth() -> String {
 }
 
 pub fn items_on_ground() -> String {
-    String::from("there are items on the ground")
+    String::from(
+        "there are items on the ground\nit really seems like something from this room \
+        is going to be very important",
+    )
 }
 
 pub fn cannot_relight_torch() -> String {
