@@ -50,20 +50,17 @@ impl Space {
     //     &self.description == c::FINAL_ROOM
     // }
 
-    // SETTERS //
-
-    // pub fn remove_items_from_space(space: &Space) {
-
-    // }
+    // ASSOCIATED FUNCTIONS //
 
     fn handle_options_within_room(input: &str, map: &mut Map, player: &mut Player) -> bool {
         let map_ref = Map::new();
+        let player_current_room = player.get_current_room();
 
-        let space = Space::get_space_by_name(player.get_current_room(), &map_ref);
+        let space = Space::get_space_by_name(String::from(&player_current_room), &map_ref);
         let iter = &mut map_ref.spaces.iter();
 
         let found_index = &iter
-            .position(|s| s.get_description() == player.get_current_room())
+            .position(|s| s.get_description() == player_current_room)
             .unwrap();
 
         match input.trim() {
@@ -81,11 +78,9 @@ impl Space {
 
                         map.remove_items_from_space(space);
 
-                        {
-                            println!("{}", story::all_items_picked_up());
-                            println!("{}", space::get_art(&player.get_current_room()));
-                            println!("{}", player.get_current_room());
-                        }
+                        println!("{}", story::all_items_picked_up());
+                        println!("{}", space::get_art(&player_current_room));
+                        println!("{}", player_current_room);
 
                         if player.get_torch_lit() {
                             println!("{}", ascii::lit_torch());
@@ -120,17 +115,18 @@ impl Space {
                 false
             }
             c::CHOICE_D => {
-                // TODO
-                // player.drop_item(name: &str)
-                // map.add_item_to_space(space: &mut Space, item_name: &str)
+                println!("{}", story::what_player_can_drop());
+                menu::print_items_to_drop(&player.get_items());
 
-                // print "what are you going to drop?"
+                // TODO
                 // enter 1 to drop box of matches
                 // matches#art
-
-                // enter x to cancel dropping
+                // use stdin to capture choice and then drop that item into this space
                 // -- enter a number, the space instantly has the item,
                 // and player is prompted to pick it up like normal
+
+                // enter x to cancel dropping
+                // c::CHOICE_X => ()
                 false
             }
             c::CHOICE_Q => {
@@ -143,8 +139,6 @@ impl Space {
             }
         }
     }
-
-    // ASSOCIATED FUNCTIONS //
 
     pub fn do_menu(player: &mut Player, map: &mut Map) {
         let map_ref = Map::new();

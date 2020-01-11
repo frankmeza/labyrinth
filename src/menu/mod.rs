@@ -64,3 +64,21 @@ pub fn print_player_items(items: &Vec<String>) {
 fn view_items() -> String {
     String::from("enter i to view your items")
 }
+
+pub fn print_items_to_drop(items: &Vec<String>) {
+    let items_map = Item::all_items();
+    let mut counter = 0;
+
+    for name in items.iter() {
+        counter += 1;
+        let found_item = items_map.get(name);
+
+        match found_item {
+            None => println!("print_items_to_drop is very virus"),
+            Some(item) => {
+                println!("enter {} to drop {}", counter, item.get_description());
+                println!("{}\n", item.get_art());
+            }
+        }
+    }
+}

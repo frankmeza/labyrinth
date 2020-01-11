@@ -57,3 +57,7 @@ pub fn all_items_picked_up() -> String {
 pub fn player_currently_carrying() -> String {
     String::from("you are currently carrying:")
 }
+
+pub fn what_player_can_drop() -> String {
+    String::from("what are you going to drop?")
+}
