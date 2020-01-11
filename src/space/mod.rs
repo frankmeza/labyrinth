@@ -1,4 +1,4 @@
-use crate::{ascii, constants as c, game::Game, map::Map, menu, player::Player, story};
+use crate::{ascii, constants as c, game::Game, map::Map, menu, player::Player, space, story};
 use std::{collections::HashMap, io};
 
 // SIBLING MODULES //
@@ -96,7 +96,16 @@ impl Space {
                         }
 
                         map.remove_items_from_space(space);
-                        println!("{}", story::all_items_picked_up());
+
+                        {
+                            println!("{}", story::all_items_picked_up());
+                            println!("{}", space::get_art(&player.get_current_room()));
+                            println!("{}", player.get_current_room());
+                        }
+
+                        if player.get_torch_lit() {
+                            println!("{}", ascii::lit_torch());
+                        }
                     } else {
                         // the player has no room for the item,
                         // and so it must remain here in this space.
@@ -118,12 +127,26 @@ impl Space {
                     menu::print_player_items(&player.get_items());
                 }
 
+                println!("{}", player.get_current_room());
+
+                if player.get_torch_lit() {
+                    println!("{}", ascii::lit_torch());
+                }
+
                 false
             }
             c::CHOICE_D => {
                 // TODO
                 // player.drop_item(name: &str)
                 // map.add_item_to_space(space: &mut Space, item_name: &str)
+
+                // print "what are you going to drop?"
+                // enter 1 to drop box of matches
+                // matches#art
+
+                // enter x to cancel dropping
+                // -- enter a number, the space instantly has the item,
+                // and player is prompted to pick it up like normal
                 false
             }
             c::CHOICE_Q => {
@@ -161,6 +184,8 @@ impl Space {
                 if map.spaces[*found_index].has_items() {
                     menu::print_space_items(&map.spaces[*found_index].get_items());
                 }
+
+                println!("{}", space::get_exit_options(&space.exits));
 
                 if player.has_items() {
                     menu::player_has_items();
