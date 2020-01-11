@@ -19,10 +19,6 @@ impl Item {
 
     // GETTERS //
 
-    pub fn get_name(&self) -> String {
-        String::from(&self.name)
-    }
-
     pub fn get_description(&self) -> String {
         String::from(&self.description)
     }

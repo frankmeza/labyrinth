@@ -1,29 +1,12 @@
 use crate::{ascii, constants as c, game::Game, map::Map, menu, player::Player, space, story};
 use std::{collections::HashMap, io};
 
-// SIBLING MODULES //
-
-mod empty;
-mod item;
-mod minotaur;
-
-pub use empty::EmptySpace;
-pub use item::ItemSpace;
-pub use minotaur::MinotaurSpace;
-
 #[derive(Debug)]
 pub struct Space {
     pub description: String,
     pub exits: HashMap<usize, usize>,
     pub items: Vec<String>,
     pub art: String,
-}
-
-#[derive(Debug)]
-pub enum SpaceType {
-    Empty(EmptySpace),
-    Item(ItemSpace),
-    Minotaur(MinotaurSpace),
 }
 
 impl Space {
@@ -62,9 +45,10 @@ impl Space {
         &self.items
     }
 
-    fn is_minotaur_space(&self) -> bool {
-        &self.description == c::FINAL_ROOM
-    }
+    // TODO
+    // fn is_minotaur_space(&self) -> bool {
+    //     &self.description == c::FINAL_ROOM
+    // }
 
     // SETTERS //
 
