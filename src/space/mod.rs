@@ -115,18 +115,31 @@ impl Space {
                 false
             }
             c::CHOICE_D => {
-                println!("{}", story::what_player_can_drop());
-                menu::print_items_to_drop(&player.get_items());
+                #[allow(unused_assignments)]
+                let mut item_to_drop = String::new();
 
-                // TODO
-                // enter 1 to drop box of matches
-                // matches#art
-                // use stdin to capture choice and then drop that item into this space
-                // -- enter a number, the space instantly has the item,
-                // and player is prompted to pick it up like normal
+                {
+                    let player_ref: &Player = &player;
+                    let player_current_items = &player_ref.get_items();
 
-                // enter x to cancel dropping
-                // c::CHOICE_X => ()
+                    println!("{}", story::what_player_can_drop());
+                    menu::print_items_to_drop(&player_current_items);
+                    println!("{}", menu::cancel_drop_item());
+
+                    let mut choice = String::new();
+                    io::stdin().read_line(&mut choice).unwrap().to_string();
+
+                    if choice.trim() == c::CHOICE_X {
+                        return false;
+                    }
+
+                    let index: usize = choice.trim().parse().unwrap();
+                    item_to_drop = String::from(&player_current_items[index - 1]);
+                }
+
+                map.add_item_to_space(space, &item_to_drop);
+                player.drop_item(&item_to_drop);
+
                 false
             }
             c::CHOICE_Q => {

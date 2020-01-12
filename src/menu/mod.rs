@@ -65,6 +65,10 @@ fn view_items() -> String {
     String::from("enter i to view your items")
 }
 
+pub fn cancel_drop_item() -> String {
+    String::from("enter x to cancel dropping")
+}
+
 pub fn print_items_to_drop(items: &Vec<String>) {
     let items_map = Item::all_items();
     let mut counter = 0;

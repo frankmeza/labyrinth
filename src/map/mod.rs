@@ -35,10 +35,18 @@ impl Map {
         }
     }
 
-    // TODO
-    // pub fn add_item_to_space(&mut self, space: &mut Space, item_name: &str) {
-    //     space.items.push(String::from(item_name));
-    // }
+    pub fn add_item_to_space(&mut self, space: &Space, item_name: &str) {
+        let mut iter = self.spaces.iter();
+        let found_index = iter.position(|s| &s.get_description() == &space.get_description());
+
+        match found_index {
+            None => println!("remove_items_from_space is very virus"),
+            Some(index) => {
+                let space = &mut self.spaces[index];
+                space.items.push(String::from(item_name));
+            }
+        }
+    }
 
     pub fn enter_labyrinth(&mut self, player: &mut Player) {
         let map_ref = Self::new();

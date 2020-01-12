@@ -60,17 +60,16 @@ impl Player {
         self.inventory.push(String::from(item_name));
     }
 
-    // TODO
-    // pub fn drop_item(&mut self, name: &str) {
-    //     let found_item = self.inventory.iter().position(|i| i == name);
+    pub fn drop_item(&mut self, name: &str) {
+        let found_item = self.inventory.iter().position(|i| i == name);
 
-    //     match found_item {
-    //         None => println!("drop_item is very virus"),
-    //         Some(index) => {
-    //             let _removed = self.inventory.remove(index);
-    //         }
-    //     }
-    // }
+        match found_item {
+            None => println!("drop_item is very virus"),
+            Some(index) => {
+                let _removed = self.inventory.remove(index);
+            }
+        }
+    }
 
     pub fn handle_player_torch(&mut self) {
         if !self.get_torch_lit() && self.has_item("matches") {
