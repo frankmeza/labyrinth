@@ -45,11 +45,6 @@ impl Space {
         &self.items
     }
 
-    // TODO
-    // fn is_minotaur_space(&self) -> bool {
-    //     &self.description == c::FINAL_ROOM
-    // }
-
     // ASSOCIATED FUNCTIONS //
 
     fn handle_options_within_room(input: &str, map: &mut Map, player: &mut Player) -> bool {
@@ -119,6 +114,7 @@ impl Space {
                 let mut item_to_drop = String::new();
 
                 {
+                    // in this scope, player is borrowed immutably
                     let player_ref: &Player = &player;
                     let player_current_items = &player_ref.get_items();
 
@@ -138,6 +134,7 @@ impl Space {
                 }
 
                 map.add_item_to_space(space, &item_to_drop);
+                // player is borrowed mutably in larger scope
                 player.drop_item(&item_to_drop);
 
                 false
