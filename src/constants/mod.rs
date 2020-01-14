@@ -31,6 +31,7 @@ pub const CHOICE_3: &str = "3";
 pub const CHOICE_4: &str = "4";
 pub const CHOICE_5: &str = "5";
 
+pub const CHOICE_F: &str = "f";
 pub const CHOICE_I: &str = "i";
 pub const CHOICE_D: &str = "d";
 pub const CHOICE_Q: &str = "q";

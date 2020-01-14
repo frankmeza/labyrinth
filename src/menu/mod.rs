@@ -86,3 +86,7 @@ pub fn print_items_to_drop(items: &Vec<String>) {
         }
     }
 }
+
+pub fn fight_the_minotaur() -> String {
+    String::from("enter f to fight the minotaur")
+}
