@@ -29,7 +29,7 @@ pub fn lost_in_a_labyrinth() -> String {
 pub fn items_on_ground() -> String {
     String::from(
         "there are items on the ground\nit really seems like something from this room \
-        is going to be very important",
+         is going to be very important",
     )
 }
 
@@ -60,4 +60,51 @@ pub fn player_currently_carrying() -> String {
 
 pub fn what_player_can_drop() -> String {
     String::from("what are you going to drop?")
+}
+
+pub fn ready_to_fight() -> String {
+    vec![
+        "you have collected the shield, bow, and arrows...",
+        "you are ready to take on the minotaur",
+    ]
+    .join("\n")
+}
+
+pub fn you_have_health_potion() -> String {
+    vec![
+        "you have a bottle of health potion in your inventory",
+        "this gives you the ability to revive yourself and",
+        "continue fighting the first time you are injured",
+    ]
+    .join("\n")
+}
+
+pub fn enter_minotaur_lair() -> String {
+    vec![
+        "you arm yourself with your weapons and enter the minotaur's lair",
+        "hopefully you make it through this alive...",
+        "** at start of fight player health is 20",
+        "** at start of fight minotaur health is 20",
+    ]
+    .join("\n")
+}
+
+// pub fn print_fighters_initial_health() -> String {}
+
+pub fn you_killed_minotaur() -> String {
+    vec![
+        "****************************************************************",
+        "you killed the minotaur and get to escape the labyrinth!",
+        "****************************************************************",
+    ]
+    .join("\n")
+}
+
+pub fn minotaur_killed_you() -> String {
+    vec![
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "the minotaur killed you, your soul is stuck here forever",
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    ]
+    .join("\n")
 }
