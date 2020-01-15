@@ -1,4 +1,7 @@
-use crate::{ascii, constants as c, player::Player, space::Space};
+#![allow(unused_mut)]
+use crate::{ascii, constants as c, game::Game, menu, player::Player, space::Space, story};
+use rand::distributions::{Distribution, Uniform};
+use std::io;
 
 #[derive(Debug)]
 pub struct Map {
@@ -54,8 +57,68 @@ impl Map {
         Map::handle_arrive_in_room(self, starting_room, player);
     }
 
+    pub fn print_fight_prologue() {
+        println!("{}", story::ready_to_fight());
+        println!("{}", ascii::minotaur());
+    }
+
     pub fn handle_arrive_in_room(&mut self, room: &Space, player: &mut Player) {
         let space = self.get_space_by_name(room.get_description());
+
+        if space.get_description() == c::FINAL_ROOM {
+            let player_items = player.get_items();
+
+            if player_items.contains(&String::from(c::SHIELD))
+                && player_items.contains(&String::from(c::BOW))
+                && player_items.contains(&String::from(c::ARROWS))
+            {
+                println!("{}", menu::fight_the_minotaur());
+
+                let mut choice = String::new();
+                io::stdin().read_line(&mut choice).unwrap().to_string();
+
+                match choice.trim() {
+                    c::CHOICE_F => {
+                        Map::print_fight_prologue();
+
+                        if player_items.contains(&String::from(c::HEALTH_POTION)) {
+                            println!("{}", story::you_have_health_potion());
+                        }
+
+                        story::enter_minotaur_lair();
+
+                        let mut player_health = 50;
+                        let mut minotaur_health = 50;
+
+                        let mut rng = rand::thread_rng();
+                        let die = Uniform::from(1..7);
+
+                        // #![allow(unused_must_use)]
+                        for _i in 0..4 {
+                            let player_damage = die.sample(&mut rng);
+                            let minotaur_damage = die.sample(&mut rng);
+
+                            player_health - player_damage;
+                            minotaur_health - minotaur_damage;
+                        }
+
+                        if player_health > minotaur_health {
+                            story::you_killed_minotaur();
+                            Game::quit();
+                        }
+
+                        if minotaur_health > player_health {
+                            story::minotaur_killed_you();
+                            Game::quit();
+                        }
+                    }
+                    c::CHOICE_Q => {
+                        Game::quit();
+                    }
+                    _ => (),
+                }
+            }
+        }
 
         println!("{}", &space.get_art());
         println!("{}\n\n", &space.get_description());
